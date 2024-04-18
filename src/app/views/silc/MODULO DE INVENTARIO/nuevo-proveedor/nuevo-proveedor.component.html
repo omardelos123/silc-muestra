@@ -1,0 +1,252 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+      </div>
+      <div class="card-body table-responsive">
+        <form autocomplete="off" #frmProveedores="ngForm" class="form-horizontal">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>
+              son requeridos.</p>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="NOMBRE_PROVEEDOR"><span class="requerido">* </span>Nombre del
+              proveedor</label>
+            <div class="col-md-9">
+              <input type="text" id="NOMBRE_PROVEEDOR" name="NOMBRE_PROVEEDOR" class="form-control" [disabled]="estatus=='detalle'"
+                placeholder="Nombre del proveedor" [(ngModel)]="solicitud.nombre" required #Nombreprovedor="ngModel">
+              <div *ngIf="Nombreprovedor.invalid && (Nombreprovedor.dirty || Nombreprovedor.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Nombreprovedor.errors.required">
+                  El <strong>Nombre del proveedor</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="numerodecontribuyente"><span class="requerido">* </span>Número
+              de contribuyete</label>
+            <div class="col-md-9">
+              <input type="text" id="numerodecontribuyente" name="numerodecontribuyente" class="form-control" [disabled]="estatus=='detalle'"
+                placeholder="Ruc" [(ngModel)]="solicitud.ruc" required #ruc="ngModel">
+                <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="ruc.errors.required">
+                  El <strong>Número de contribuyete</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="DIRECCION"><span class="requerido">* </span>Dirección</label>
+            <div class="col-md-9">
+              <textarea id="DIRECCION" name="DIRECCION" rows="3" class="form-control" placeholder="Dirección" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.domicilio" required #direccion="ngModel"></textarea>
+              <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="direccion.errors.required">
+                  El <strong>Direccion</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="NOMBRE_DEL_CONTACTO"><span class="requerido">* </span>Nombre del
+              contacto</label>
+            <div class="col-md-9">
+              <input type="text" id="NOMBRE_DEL_CONTACTO" name="NOMBRE_DEL_CONTACTO" class="form-control" [disabled]="estatus=='detalle'"
+                placeholder="Nombre del contacto" [(ngModel)]="solicitud.nombre_contacto" required
+                #Nombrecontacto="ngModel">
+              <div *ngIf="Nombrecontacto.invalid && (Nombrecontacto.dirty || Nombrecontacto.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Nombrecontacto.errors.required">
+                  El <strong>Nombre del contacto</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="pais"><span class="requerido">* </span>País</label>
+            <div class="col-md-9">
+              <select id="pais" name="pais" class="form-control" [(ngModel)]="solicitud.id_pais" required 
+                #Paises="ngModel" [disabled]="estatus=='detalle'">
+                <option value="">- Selecione un país -</option>
+                <option *ngFor="let xpais of pais" [value]=xpais.id_pais>{{xpais.nombre}}</option>
+              </select>
+              <div *ngIf="Paises.invalid && (Paises.dirty || Paises.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Paises.errors.required">
+                  El <strong>País</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="provincia"><span class="requerido">* </span>Provincia</label>
+            <div class="col-md-9">
+              <select id="provincia" name="provincia" class="form-control" [(ngModel)]="solicitud.id_provincia" required 
+                #Provincias="ngModel" [disabled]="estatus=='detalle'">
+                <option value="">- Selecione una provincia -</option>
+                <option *ngFor="let xprovincia of provincia" [value]=xprovincia.id_provincia>{{xprovincia.nombre}}
+                </option>
+              </select>
+              <div *ngIf="Provincias.invalid && (Provincias.dirty || Provincias.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Provincias.errors.required">
+                  La <strong>Provincia</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="distrito"><span class="requerido">* </span>Distrito</label>
+            <div class="col-md-9">
+              <select id="distrito" name="distrito" class="form-control" [(ngModel)]="solicitud.id_distrito" required
+                #Distritos="ngModel" [disabled]="estatus=='detalle'">
+                <option value="">- Selecione un distrito -</option>
+                <option *ngFor="let xdistrito of distrito" [value]=xdistrito.id_distrito>{{xdistrito.nombre}}</option>
+              </select>
+              <div *ngIf="Distritos.invalid && (Distritos.dirty || Distritos.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Distritos.errors.required">
+                  El <strong>Distrito</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="telefono_celular"><span class="requerido">*
+              </span>Teléfono/Celular</label>
+            <div class="col-md-9">
+              <input type="text" id="telefono_celular" name="telefono_celular" class="form-control" [disabled]="estatus=='detalle'"
+                placeholder="Teléfono/Celular" [(ngModel)]="solicitud.telefono" required #TelefonoCelular="ngModel">
+              <div *ngIf="TelefonoCelular.invalid && (TelefonoCelular.dirty || TelefonoCelular.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="TelefonoCelular.errors.required">
+                  El <strong>Telefono/Celular</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="CODIGO_POSTAL">Código postal</label>
+            <div class="col-md-9">
+              <input type="text" id="CODIGO_POSTAL" name="CODIGO_POSTAL" class="form-control" [disabled]="estatus=='detalle'"
+                placeholder="Código postal" [(ngModel)]="solicitud.codigo_postal">
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="CORREO_ELECTRONICO">Correo electronico</label>
+            <div class="col-md-9">
+              <input type="email" id="CORREO_ELECTRONICO" name="CORREO_ELECTRONICO" class="form-control" [disabled]="estatus=='detalle'"
+                placeholder="Correo electronico" [(ngModel)]="solicitud.correo">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="SITIO_WEB">Sitio web</label>
+            <div class="col-md-9">
+              <input type="text" id="SITIO_WEB" name="SITIO_WEB" class="form-control" placeholder="Sitio web" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.pagina_web">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="formapagos"><span class="requerido">* </span>Forma de
+              pago</label>
+            <div class="col-md-9">
+              <select id="formapagos" name="formapagos" class="form-control" [(ngModel)]="solicitud.id_forma_pago" [disabled]="estatus=='detalle'"
+                required #FormaPago="ngModel">
+                <option value="">- Selecione una forma de pago -</option>
+                <option *ngFor="let a of forma_pagos" [value]=a.id_forma_pago>{{a.nombre}} </option>
+              </select>
+              <div *ngIf="FormaPago.invalid && (FormaPago.dirty || FormaPago.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="FormaPago.errors.required">
+                  La <strong>Forma de pago</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Manejodeenvio">Manejo de envio</label>
+            <div class="col-md-9">
+              <input type="number" id="Manejodeenvio" name="Manejodeenvio" class="form-control" placeholder="Manejo de envio" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.manejo_de_envio">
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Entrega">Entrega a domicilio</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_tipo_entrega" class="switch-input" checked
+                  [(ngModel)]="solicitud.sw_tipo_entrega" [disabled]="estatus=='detalle'">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Estatus">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_activo" class="switch-input" checked [(ngModel)]="solicitud.sw_activo" [disabled]="estatus=='detalle'">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmProveedores)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" *ngIf="btn_acciones.btn_guardar"
+            (click)="guardar(frmProveedores)" [disabled]="!frmProveedores.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

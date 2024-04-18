@@ -1,0 +1,79 @@
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+        <br>
+        <strong> {{estatus}}</strong>
+      </div>
+      <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_tarea>Id tarea</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_tarea" name="Id_tarea" class="form-control" placeholder="Id tarea">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Id_orden_de_trabajo">Orden de trabajo</label>
+            <div class="col-md-9">
+              <select id="Id_orden_de_trabajo" name="Id_orden_de_trabajo" class="form-control">
+                <option value="0">- Selecione la orden de trabajo -</option>
+                <option value="1">Option #1</option>
+                <option value="2">Option #2</option>
+                <option value="3">Option #3</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Id_deficiencia">Deficiencia</label>
+            <div class="col-md-9">
+              <select id="Id_deficiencia" name="Id_deficiencia" class="form-control">
+                <option value="0">- Selecione la deficiencia -</option>
+                <option value="1">Option #1</option>
+                <option value="2">Option #2</option>
+                <option value="3">Option #3</option>
+              </select>
+            </div>
+          </div>
+
+          
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Descripcion">Descripción</label>
+            <div class="col-md-9">
+              <textarea id="Descripcion" name="Descripcion" rows="3" class="form-control" placeholder="Descripción"></textarea>
+            </div>
+          </div>
+
+           
+ 
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="GUARDAR">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

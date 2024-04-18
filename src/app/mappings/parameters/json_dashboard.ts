@@ -1,0 +1,30 @@
+export class dashboard {
+    public prm_dashboard = {
+        token: JSON.parse(decodeURIComponent(escape(window.atob(localStorage._token)))),
+        cant_autorizada: 0,
+        cant_disponible: 0,
+        cant_entradas: 0,
+        cant_minima: 0,
+        cant_salidas: 0,
+        cant_total_en_inventario: 0,
+        costo_total_en_inventario: 0,
+        entrada: 0,
+        fecha_crea: new Date().toUTCString(),
+        id_compania: parseInt(localStorage.getItem("COMP")),
+        id_historico: 0,
+        id_parte: 0,
+        id_pedido: 0,
+        nombre_repuesto: '',
+        precio: 0,
+        salida: 0,
+        sw_activo: 0,
+        sw_recibida: 0,
+        usuario_crea: parseInt(localStorage.getItem("USU")),
+        usuario_actualiza: parseInt(localStorage.getItem("USU")),
+        accion_tipo: '',
+        fecha_desde: new Date().toUTCString(),
+        fecha_hasta: new Date().toUTCString(),
+        id_proveedor: 0,
+        top: 0
+    }
+}

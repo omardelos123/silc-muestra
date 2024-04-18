@@ -1,0 +1,129 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+        <!-- <br>
+        <strong> {{estatus}}</strong>-->
+      </div>
+      <div class="card-body table-responsive">
+
+        <form class="form-horizontal" #frmUbicaciondeactivos="ngForm" autocomplete="off">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>
+              son requeridos.</p>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Numero_de_parte"><span class="requerido">* </span>Nombre de la
+              parte</label>
+            <div class="col-md-9">
+              <select id="Numero_de_parte" name="Numero_de_parte" class="form-control" [(ngModel)]="solicitud.id_parte" [disabled]="estatus=='detalle'"
+                required #numerodeparte="ngModel" (change)="run_proveedor()" >
+                <option value="">- Selecione un nombre de la parte -</option>
+                <option *ngFor="let a2 of  partes_datos" value="{{a2.id_parte}}">{{a2.nombre}}</option>
+
+              </select>
+              <div *ngIf="numerodeparte.invalid && (numerodeparte.dirty || numerodeparte.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="numerodeparte.errors.required">
+                  El <strong>Número de parte</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" *ngIf="solicitud.id_parte != 0">
+            <label class="col-md-3 col-form-label" for="proveedor"><span class="requerido">* </span>Proveedor</label>
+            <div class="col-md-9">
+              <select id="proveedor" name="proveedor" class="form-control" [(ngModel)]="solicitud.id_proveedor" [disabled]="estatus=='detalle'"
+                required #proveedores="ngModel">
+                <option value="">- Selecione un proveedor -</option>
+                <option *ngFor="let a2 of  lista_provedores_numeroparte" value="{{a2.id_proveedor}}">{{a2.nombre_proveedor}} </option>
+              </select>
+              <div *ngIf="proveedores.invalid && (proveedores.dirty || proveedores.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="proveedores.errors.required">
+                  El <strong>Proveedor</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="ubicacion"><span class="requerido">* </span>Ubicación</label>
+              <div class="col-md-9">
+                <select id="ubicacion" name="ubicacion" class="form-control" [(ngModel)]="solicitud.id_ubicacion" [disabled]="estatus=='detalle'"
+                  required #ubicaciones="ngModel">
+                  <option value="">- Selecione una ubicación -</option>
+                  <option *ngFor="let a3 of ubicacion_datos" value="{{a3.id_ubicacion}}">{{a3.nombre_almacen}} - {{a3.nombre}} ({{a3.descripcion}})</option>
+                </select>
+                <div *ngIf="ubicaciones.invalid && (ubicaciones.dirty || ubicaciones.touched)" class="alert alert-danger alert-requerido">
+                  <div *ngIf="ubicaciones.errors.required">
+                    La <strong>Ubicación</strong> es un valor requerido.
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Descripcion">Descripción</label>
+            <div class="col-md-9">
+              <textarea id="Descripcion" name="Descripcion" rows="3" class="form-control" placeholder="Descripción" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.descripcion" ></textarea>
+                
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="tag_rfid">Tag RFID</label>
+            <div class="col-md-1">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_rfid" class="switch-input" checked [(ngModel)]="solicitud.sw_rfid" [disabled]="estatus=='detalle'" >
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+            <div class="col-md-8" *ngIf="solicitud.sw_rfid">
+              <input type="text" id="cod_rfid" name="cod_rfid" class="form-control" placeholder="Tag RFID" [(ngModel)]="solicitud.cod_rfid" [disabled]="estatus=='detalle'">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="tag_rfid">Activo</label>
+            <div class="col-md-1">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_activo" class="switch-input" checked [(ngModel)]="solicitud.sw_activo" [disabled]="estatus=='detalle'">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmUbicaciondeactivos)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar(frmUbicaciondeactivos)" [disabled]="!frmUbicaciondeactivos.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

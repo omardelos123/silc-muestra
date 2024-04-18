@@ -1,0 +1,2 @@
+Las clases iniciadas con json.
+    son los json que se envian en las peticiones al servidor.

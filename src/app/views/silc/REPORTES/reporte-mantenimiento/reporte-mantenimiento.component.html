@@ -1,0 +1,96 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+
+      </div>
+      <div class="card-body table-responsive">
+        <form class="form-horizontal" autocomplete="off" #frmEstatus="ngForm">
+          
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="fecha_deficiencia">Rango de Fechas</label>
+            <div class="col-md-4">
+              <label class="col-md-12 col-form-label" for="fecha_ini">Desde</label>
+              <input class="form-control" id="fecha_ini" type="date" name="fecha_ini"
+                placeholder="Fecha Inicio" [ngModel]="solicitud.fecha_ini | date:'yyyy-MM-dd'"
+                [value]="solicitud.fecha_ini | date:'yyyy-MM-dd'"
+                (ngModelChange)="solicitud.fecha_ini = $event"
+                >
+            </div>
+            
+            <div class="col-md-4">
+                <label class="col-md-12 col-form-label" for="fecha_fin">Hasta</label>
+              <input class="form-control" id="fecha_fin" type="date" name="fecha_fin"
+                placeholder="Fecha Fin" [ngModel]="solicitud.fecha_fin | date:'yyyy-MM-dd'"
+                [value]="solicitud.fecha_fin | date:'yyyy-MM-dd'"
+                (ngModelChange)="solicitud.fecha_fin = $event"
+                >
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <!-- <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button> -->
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" (click)="limpiar()">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" (click)="mdl_exportar_reporte.show();">
+            <i class="fa fa-save"></i>
+            <span>ACEPTAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- MODAL EXPORTAR REPORTE-->
+<div bsModal class="modal fade" #mdl_exportar_reporte="bs-modal" id="mdl_exportar_reporte" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">EXPORTAR REPORTE </h4>
+        <button type="button" class="close" (click)="mdl_exportar_reporte.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="">
+          ¿En que formato desea descargar el documento?
+        </alert>
+      </div>
+      <div class="card-footer">
+        <div class="text-center">
+          <button type="reset" class="btn btn-primary   btn-square mr-1" style="margin-bottom: 4px" title="PDF" [disabled]="flag"
+            (click)="obtenerReporte('pdf'); mdl_exportar_reporte.hide();">
+            <span>Archivo PDF </span><i class="fa fa-cloud-download"></i>
+          </button>
+
+          <button type="reset" class="btn btn-primary   btn-square mr-1" style="margin-bottom: 4px" title="EXCEL" [disabled]="flag"
+            (click)="obtenerReporte('xlsx'); mdl_exportar_reporte.hide();">
+            <span>Archivo Excel </span><i class="fa fa-cloud-download"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

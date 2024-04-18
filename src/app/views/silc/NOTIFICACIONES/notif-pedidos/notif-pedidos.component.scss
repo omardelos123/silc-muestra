@@ -1,0 +1,9 @@
+.efect_touch {
+	background-position: center;
+	transition: background 0.8s;
+	&:active {
+		background-color: #4D4D4D;
+		background-size: 100%;
+		transition: background 0s;
+	}
+}

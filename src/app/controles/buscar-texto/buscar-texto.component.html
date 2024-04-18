@@ -1,0 +1,7 @@
+<input type="text" id="filtrarTexto" name="nFiltrarTexto"
+class="form-control" 
+placeholder="{{placeholderTxt}}"
+[(ngModel)]="FiltroTxt" 
+(ngModelChange)="modelChanged($event)" 
+popover="{{placeholderTxt}}"
+triggers="mouseenter:mouseleave">

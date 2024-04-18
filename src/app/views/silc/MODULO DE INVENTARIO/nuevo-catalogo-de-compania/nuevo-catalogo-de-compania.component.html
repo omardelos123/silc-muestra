@@ -1,0 +1,180 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+
+      </div>
+      <div class="card-body table-responsive">
+
+
+        <form class="form-horizontal" #frmCatalogodecompania="ngForm" autocomplete="off">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>
+              son requeridos.</p>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="proveedor"><span class="requerido">* </span>Proveedor</label>
+            <div class="col-md-9">
+              <select id="proveedor" name="proveedor" class="form-control" [(ngModel)]="solicitud.id_proveedor" [disabled]="estatus=='detalle'"
+                required #provedores="ngModel">
+                <option value="">- Seleccione un proveedor -</option>
+                <option *ngFor="let a2 of  proveedor_datos" value="{{a2.id_proveedor}}">{{a2.nombre}} </option>
+              </select>
+              <div *ngIf="provedores.invalid && (provedores.dirty || provedores.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="provedores.errors.required">
+                  El <strong>Proveedor</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="fabricante"><span class="requerido">* </span>Fabricante</label>
+            <div class="col-md-9">
+              <select id="fabricante" name="fabricante" class="form-control" [(ngModel)]="solicitud.id_fabricante" [disabled]="estatus=='detalle'"
+                required #fabricantes="ngModel">
+                <option value="">- Seleccione un Fabricante -</option>
+                <option *ngFor="let a4 of  fabricante_datos" value="{{a4.id_fabricante}}">{{a4.nombre}} </option>
+              </select>
+              <div *ngIf="fabricantes.invalid && (fabricantes.dirty || fabricantes.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="fabricantes.errors.required">
+                  El <strong>Fabricante</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="nombre"><span class="requerido">* </span>Numero de parte</label>
+              <div class="col-md-9">
+                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Numero de parte" [disabled]="estatus=='detalle'"
+                  [(ngModel)]="solicitud.nombre" required #numerodeparte="ngModel" >
+                  <div *ngIf="numerodeparte.invalid && (numerodeparte.dirty || numerodeparte.touched)"
+                    class="alert alert-danger alert-requerido">
+                    <div *ngIf="numerodeparte.errors.required">
+                      El <strong>Numero de parte</strong> es un valor requerido.
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Descripcion">Descripción</label>
+            <div class="col-md-9">
+              <textarea id="Descripcion" name="Descripcion" rows="3" class="form-control" placeholder="Descripción" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.descripcion"></textarea>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Precio_unitario_base"><span class="requerido">* </span>Precio
+              unitario base</label>
+            <div class="col-md-9">
+              <input type="text" id="Precio_unitario_base" name="Precio_unitario_base" class="form-control" placeholder="Precio unitario base" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.precio_unitario_base" required #preciounitariobase="ngModel">
+              <div *ngIf="preciounitariobase.invalid && (preciounitariobase.dirty || preciounitariobase.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="preciounitariobase.errors.required">
+                  El <strong>Precio unitario base</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="unidad_entrega"><span class="requerido">* </span>Unidad de
+              entrega</label>
+            <div class="col-md-9">
+              <select id="unidad_entrega" name="unidad_entrega" class="form-control" [(ngModel)]="solicitud.id_unidad_entrega" [disabled]="estatus=='detalle'"
+                required #unidaddeentrega="ngModel">
+                <option value="">- Selecione unidad entrega -</option>
+                <option *ngFor="let a1 of  sw_entrega_datos" value="{{a1.id_unidad}}">{{a1.nombre}} --- {{a1.descripcion}} </option>
+              </select>
+              <div *ngIf="unidaddeentrega.invalid && (unidaddeentrega.dirty || unidaddeentrega.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="unidaddeentrega.errors.required">
+                  La <strong>Unidad de entrega</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Unidad_proveedor"><span class="requerido">* </span>Unidad
+              proveedor</label>
+            <div class="col-md-9">
+              <select id="Unidad_proveedor" name="Unidad_proveedor" class="form-control" [(ngModel)]="solicitud.id_unidad_proveedor" [disabled]="estatus=='detalle'"
+                required #unidaddeprovedor="ngModel">
+                <option value="">- Selecione unidad proveedor -</option>
+                <option *ngFor="let a of sw_proveedor_datos" value="{{a.id_unidad}}">{{a.nombre}} ---  {{a.descripcion}} </option>
+              </select>
+              <div *ngIf="unidaddeprovedor.invalid && (unidaddeprovedor.dirty || unidaddeprovedor.touched)" class="alert alert-danger alert-requerido">
+                  <div *ngIf="unidaddeprovedor.errors.required">
+                    La <strong>Unidad de proveedor</strong> es un valor requerido.
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="reparable">¿Es reparable ?</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_reparable" class="switch-input" checked [(ngModel)]="solicitud.sw_reparable" [disabled]="estatus=='detalle'">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="esencial">¿Es esencial?</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_esencial" class="switch-input" checked [(ngModel)]="solicitud.sw_esencial" [disabled]="estatus=='detalle'" >
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Estatus">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_activo" class="switch-input" checked [(ngModel)]="solicitud.sw_activo" [disabled]="estatus=='detalle'">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmCatalogodecompania)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar(frmCatalogodecompania)" [disabled]="!frmCatalogodecompania.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

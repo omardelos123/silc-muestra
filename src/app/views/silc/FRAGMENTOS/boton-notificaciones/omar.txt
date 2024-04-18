@@ -1,0 +1,11 @@
+se creo un componente nuevo para la campanita de notificaciones en la
+carpeta de nombre FRAGMENTO.
+
+se instalo la dependencia rxjs con el metodo(npm install rxjs --save) 
+para llamar un metodo en un periodo de tiempo.
+
+
+se creo en el rest api un metodo nuevo llamado punto de reorden.
+
+se instalo la dependencia jspdf con el metodo(npm install jspdf --save, npm install @types/jspdf --save ) para poder crear
+los pdf que se utilizaran para hacer reportes.

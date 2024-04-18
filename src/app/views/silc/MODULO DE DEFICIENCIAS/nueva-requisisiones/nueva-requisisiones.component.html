@@ -1,0 +1,97 @@
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+        <br>
+        <strong> {{estatus}}</strong>
+      </div>
+      <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_deficiencia>Id deficiencia</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_deficiencia" name="Id_deficiencia" class="form-control" placeholder="Id deficiencia">
+            </div>
+          </div>
+
+                   <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_parte>Parte</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_parte" name="Id_parte" class="form-control" placeholder="Id parte">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_requisision>Requisision</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_requisision" name="Id_requisision" class="form-control" placeholder="Id requisision">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_prioridad>Prioridad</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_prioridad" name="Id_prioridad" class="form-control" placeholder="Id prioridad">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_cantidad>Cantidad</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_cantidad" name="Id_cantidad" class="form-control" placeholder="Id cantidad">
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Solicitada">Solicitada</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" class="switch-input" checked>
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Activo">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" class="switch-input" checked>
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="GUARDAR">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

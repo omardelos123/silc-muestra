@@ -1,0 +1,14 @@
+29/02/2020.
+
+ACTUALIZACION DE TABLA [dbo].[posibles_fallas]
+ACTUALIZACION DEL PROCEDIMIENTO ALMACENADO [dbo].[CRUD_posibles_fallas]
+
+VERIFICAR EL MENUSE REPITEN
+SELECT * FROM MENU WHERE ID_MENU = 53
+DELETE FROM menu WHERE  ID_MENU = 53 AND usuario_crea = 2
+
+
+ene l motodo setPage(page: number)  
+comentar el return true
+ y agregar las variables y el metodo filtrar($evet) 
+ a los componente

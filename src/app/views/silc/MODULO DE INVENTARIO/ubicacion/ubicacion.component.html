@@ -1,0 +1,98 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-navicon"></i><strong>UBICACIÓN</strong>
+
+        </div>
+        <div class="card-body table-responsive">
+          <div>
+            <button type="button " class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+              style="margin-bottom: 4px" title="CREAR UBICACIÓN" (click)="crear_ubicacion()" *ngIf="permisos.registrar == 1">
+              <i class="fa fa-plus"></i>
+              <span>CREAR UBICACIÓN</span>
+            </button>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="ubicacion_select"><strong>Filtrar ubicación</strong></label>
+            
+            
+            <div class="col-md-9">
+              <app-buscar-texto [arreglo]="ArregloRespuesta" (salidaArreglo)="filtrar($event)"
+              [FiltroStringObj]="['nombre','id_almacen_compania','descripcion']"
+              [placeholderTxt]="'Filtrar por nombre , descripción , almacen'">
+              </app-buscar-texto>
+            </div>
+
+          </div>
+          <form class="form-horizontal" autocomplete="off">
+            <table class="table">
+              <thead>
+                <tr>
+
+                  <!-- <th>NUMERO DE PARTE</th> -->
+                  <th>ALMACÉN</th>
+                  <th>UBICACIÓN</th>
+                  <th>DESCRIPCIÓN</th>
+                  <th class="text-center ">ACCIÓN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let a of ubicacion | filterBy: ['nombre','descripcion', 'nombre_almacen']: filtrar_ubicacion">
+
+                  <!-- <td>{{a.nombre}}</td> -->
+                  <td>{{a.nombre_almacen}}</td>
+                  <td>{{a.nombre}}</td>
+                  <td>{{a.descripcion}}</td>
+                  <td class="text-center ">
+                    <div class="btn-group ">
+                      <button type="button " class="btn btn-brand  btn-primary btn-square mr-1"
+                        style="margin-bottom: 4px" title="DETALLE" data-toggle="modal" (click)="detalle_ubicacion(a)">
+                        <i class="fa fa-eye"></i>
+
+                      </button>
+                      <button type="button " class="btn btn-brand  btn-success btn-square mr-1"
+                        style="margin-bottom: 4px" title="MODIFICAR" (click)="modificar_ubicacion(a)" *ngIf="permisos.actualizar == 1">
+                        <i class="fa fa-edit"></i>
+
+                      </button>
+                      <button type="button " class="btn btn-danger  btn-primary btn-square mr-1"
+                        style="margin-bottom: 4px" title="ELIMINAR" data-toggle="modal"
+                        (click)="eliminar_modal(a)" *ngIf="permisos.eliminar == 1">
+                        <i class="fa fa-trash"></i>
+
+                      </button>
+                    </div>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          <ul class="pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(1)">Primero</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(pager.currentPage - 1)">Anterior</a>
+            </li>
+            <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+              <a class="page-link" (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.currentPage + 1)">Próximo</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.totalPages)">Último</a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 

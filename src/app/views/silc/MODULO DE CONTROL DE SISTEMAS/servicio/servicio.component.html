@@ -1,0 +1,124 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-navicon"></i><strong>SERVICIOS</strong>
+
+        </div>
+        <div class="card-body table-responsive">
+          <div>
+            <button type="button " class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+              title="CREAR SERVICIOS" (click)="crear_servicio()" *ngIf="permisos.registrar == 1">
+              <i class="fa fa-plus"></i>
+              <span>CREAR SERVICIOS</span>
+            </button>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="servicios_select"><strong>Filtrar servicios</strong></label>
+            
+
+            
+            <div class="col-md-9">
+              <app-buscar-texto [arreglo]="ArregloRespuesta" (salidaArreglo)="filtrar($event)"
+              [FiltroStringObj]="['nombre','descripcion']"
+              [placeholderTxt]="'Filtrar por nombre , descripcón'">
+              </app-buscar-texto>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>NOMBRE</th>
+                <th>DESCRIPCIÓN</th>
+                <th class="text-center ">ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of servicios | filterBy: ['nombre','descripcion']: filtrar_servicios">
+                <td>{{a.nombre}}</td>
+                <td>{{a.descripcion}}</td>
+
+
+                <td class="text-center ">
+                  <div class="btn-group ">
+                    <button type="button " class="btn btn-brand  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+                      title="DETALLE" data-toggle="modal" (click)="detalle_servicio(a)">
+                      <i class="fa fa-eye"></i>
+
+                    </button>
+                    <button type="button " class="btn btn-brand  btn-success btn-square mr-1" style="margin-bottom: 4px"
+                      title="MODIFICAR" (click)="modificar_servicio(a)" *ngIf="permisos.actualizar == 1">
+                      <i class="fa fa-edit"></i>
+
+                    </button>
+                    <button type="button " class="btn btn-danger  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+                      title="ELIMINAR" data-toggle="modal" (click)="eliminar_modal(a)" *ngIf="permisos.eliminar == 1">
+                      <i class="fa fa-trash"></i>
+
+                    </button>
+                  </div>
+
+                </td>
+            </tbody>
+          </table>
+          <ul class="pagination" *ngIf="pager.pages && pager.pages.length">
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="setPage(1)">Primero</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="setPage(pager.currentPage - 1)">Anterior</a>
+              </li>
+              <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a class="page-link" (click)="setPage(page)">{{page}}</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="setPage(pager.currentPage + 1)">Próximo</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="setPage(pager.totalPages)">Último</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- MODAL PARA ELIMINAR-->
+<div bsModal #ELIMINAR_Modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Eliminar Registro </h4>
+        <button type="button" class="close" (click)="ELIMINAR_Modal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="danger">
+          ¿Desea eliminar <strong>{{nombre_servicios}}</strong> ?
+        </alert>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary">Close</button> -->
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="NO" (click)="ELIMINAR_Modal.hide()">
+            <!-- <i class="fa fa-times"></i> -->
+            <span>NO</span>
+          </button>
+
+          <button type="submit" class="btn btn-brand  btn-primary btn-square mr-1" style="margin-bottom: 4px" title="SI" (click)="eliminar()">
+            <!-- <i class="cui-circle-x"></i> -->
+            <span>SI</span>
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

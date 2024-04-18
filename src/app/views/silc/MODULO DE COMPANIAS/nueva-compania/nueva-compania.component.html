@@ -1,0 +1,245 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+        <!-- <br>
+        <strong> {{estatus}}</strong> -->
+      </div>
+      <div class="card-body table-responsive">
+        <form class="form-horizontal" #frmNuevaCompania="ngForm" autocomplete="off">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>
+              son requeridos.</p>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Nombre"><span class="requerido">* </span>Nombre</label>
+            <div class="col-md-9">
+              <input type="text" id="Nombre" name="Nombre" class="form-control" [(ngModel)]="solicitud.nombre"
+                placeholder="Nombre" required #NombreCompania="ngModel">
+              <div *ngIf="NombreCompania.invalid && (NombreCompania.dirty || NombreCompania.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="NombreCompania.errors.required">
+                  El <strong>Nombre</strong> es un valor requerido.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Direccion"><span class="requerido">* </span>Dirección</label>
+            <div class="col-md-9">
+              <textarea id="Direccion" name="Direccion" rows="3" class="form-control" [(ngModel)]="solicitud.direccion"
+                placeholder="Dirección" required #DireccionCompania="ngModel"></textarea>
+              <div *ngIf="DireccionCompania.invalid && (DireccionCompania.dirty || DireccionCompania.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="DireccionCompania.errors.required">
+                  La <strong>Direccion</strong> es un valor requerido.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="contacto"><span class="requerido">* </span>Contacto</label>
+            <div class="col-md-9">
+              <input type="text" id="contacto" name="contacto" class="form-control" [(ngModel)]="solicitud.contacto"
+                placeholder="Contacto" required #contactocompania="ngModel">
+              <div *ngIf="contactocompania.invalid && (contactocompania.dirty || contactocompania.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="contactocompania.errors.required">
+                  El <strong>Gerente</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Jefe">Gerente</label>
+            <div class="col-md-9">
+              <input type="text" id="gerente" name="gerente" class="form-control" [(ngModel)]="solicitud.gerente"
+                placeholder="Gerente">
+
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Sub-jefe">Sub Gerente</label>
+            <div class="col-md-9">
+              <input type="text" id="Sub-gerente" name="Sub-gerente" class="form-control"
+                [(ngModel)]="solicitud.sub_gerente" placeholder="Sub-jefe">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Telefono"><span class="requerido">* </span>Teléfono/
+              Celular</label>
+            <div class="col-md-9">
+              <input type="text" id="Telefono" name="Telefono" class="form-control" [(ngModel)]="solicitud.telefono"
+                placeholder="Teléfono/Celular" required #TelefonoCelularCompania="ngModel">
+              <div
+                *ngIf="TelefonoCelularCompania.invalid && (TelefonoCelularCompania.dirty || TelefonoCelularCompania.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="TelefonoCelularCompania.errors.required">
+                  El <strong>Telefono/celular</strong> es un valor requerido.
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Correo_electronico"><span class="requerido">* </span>Correo
+              electronico</label>
+            <div class="col-md-9">
+              <!-- <a href="#" class="badge badge-primary">Agregar <i class="fa fa-plus"></i></a> -->
+              <div class="input-group">
+                <input class="form-control" id="Correo_electronico" type="text" name="Correo_electronico"
+                  [(ngModel)]="correo" placeholder="correo@ejemplo.com" #CorreoElectronicoCompania="ngModel">
+                <span class="input-group-append">
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                    style="margin-bottom: 4px" title="AGREGAR CORREO" (click)="agregarCorreo()"
+                    [disabled]="correo == ''">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </span>
+              </div>
+              <a href="JavaScript:Void(0);" class="badge badge-primary"
+                *ngFor="let a of lista_de_correos; let i = index" (click)="eliminar_correo(i)">{{a}} <i
+                  class="fa fa-times-circle"></i></a>
+              <div *ngIf="lista_de_correos.length">
+                <div
+                  *ngIf="CorreoElectronicoCompania.invalid && (CorreoElectronicoCompania.dirty || CorreoElectronicoCompania.touched)"
+                  class="alert alert-danger alert-requerido">
+                  <div *ngIf="CorreoElectronicoCompania.errors.required">
+                    El <strong>Correo electronico</strong> es un valor requerido.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Sitio_web">Sitio web</label>
+            <div class="col-md-9">
+              <input id="Sitio_web" name="Sitio_web" class="form-control" [(ngModel)]="solicitud.pagina_web"
+                placeholder="Sitio web">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Codigo_postal">Código postal</label>
+            <div class="col-md-9">
+              <input type="text" id="Codigo_postal" name="Codigo_postal" class="form-control"
+                [(ngModel)]="solicitud.codigo_postal" placeholder="Código postal">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="pais"><span class="requerido">* </span>País</label>
+            <div class="col-md-9">
+              <select id="pais" name="pais" class="form-control" required #Paises="ngModel"
+                [(ngModel)]="solicitud.id_pais">
+                <option value="">- Selecione un país -</option>
+                <option *ngFor="let xpais of pais" [value]=xpais.id_pais>{{xpais.nombre}}</option>
+              </select>
+              <div *ngIf="Paises.invalid && (Paises.dirty || Paises.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Paises.errors.required">
+                  El <strong>País</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="provincia"><span class="requerido">* </span>Provincia</label>
+            <div class="col-md-9">
+              <select id="provincia" name="provincia" class="form-control" required #Provincias="ngModel"
+                [(ngModel)]="solicitud.id_provincia">
+                <option value="">- Selecione una provincia -</option>
+                <option *ngFor="let xprovincia of provincia" [value]=xprovincia.id_provincia>{{xprovincia.nombre}}
+                </option>
+              </select>
+              <div *ngIf="Provincias.invalid && (Provincias.dirty || Provincias.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Provincias.errors.required">
+                  La <strong>Provincia</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="distrito"><span class="requerido">* </span>Distrito</label>
+            <div class="col-md-9">
+              <select id="distrito" name="distrito" class="form-control" required #Distritos="ngModel"
+                [(ngModel)]="solicitud.id_distrito">
+                <option value="">- Selecione un distrito -</option>
+                <option *ngFor="let xdistrito of distrito" [value]=xdistrito.id_distrito>{{xdistrito.nombre}}</option>
+              </select>
+              <div *ngIf="Distritos.invalid && (Distritos.dirty || Distritos.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Distritos.errors.required">
+                  El <strong>Distrito</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Impuesto"><span class="requerido">* </span>Impuesto</label>
+            <div class="col-md-9">
+              <input id="Impuesto" name="Impuesto" class="form-control" placeholder="Impuesto"
+                [(ngModel)]="solicitud.impuesto" required #Impuesto="ngModel" type="number">
+              <div *ngIf="Impuesto.invalid && (Impuesto.dirty || Impuesto.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="Impuesto.errors.required">
+                  El <strong>Impuesto</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Estatus">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_activo" class="switch-input" checked [(ngModel)]="solicitud.sw_activo">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmNuevaCompania)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" *ngIf="btn_acciones.btn_guardar"
+            (click)="guardar(frmNuevaCompania)" [disabled]="!frmNuevaCompania.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

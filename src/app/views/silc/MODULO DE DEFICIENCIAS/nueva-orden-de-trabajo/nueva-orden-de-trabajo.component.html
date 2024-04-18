@@ -1,0 +1,319 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal" #frmDeff="ngForm" autocomplete="off">
+
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong> son
+              requeridos.</p>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_sistema"> <span class="requerido">* </span> Sistema
+              <span class="badge badge-pill badge-secondary" popover="Sistema que contiene la falla"
+                triggers="mouseenter:mouseleave">?</span>
+            </label>
+            <div class="col-md-9">
+              <div class="input-group">
+                <input class="form-control" id="id_sistema" type="text" name="id_sistema" [(ngModel)]="sistema_nombre"
+                  placeholder="Nombre del Sistema" disabled required>
+                <span class="input-group-append">
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                    style="margin-bottom: 4px" title="BUSCAR SISTEMA" (click)="abrir_Mdl_sistema(Mdl_sistema)">
+                    <i class="fa fa-search"></i>
+                    <span>BUSCAR SISTEMA</span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Descripcion">Descripción</label>
+            <div class="col-md-9">
+              <textarea id="Descripcion" name="Descripcion" rows="3" class="form-control" placeholder="Descripción"
+                [(ngModel)]="solicitud.descripcion"></textarea>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="deficiencias.length == 0 && this.solicitud.id_sistema != 0">
+            <p>* No existen deficiencias para este sistema *</p>
+          </div>
+          <div class="form-group row" *ngIf="deficiencias.length > 0">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>N. DE DEFICIENCIA</th>
+                  <th>DEFICIENCIA</th>
+                  <th>DEFICIENCIA</th>
+                  <th>REPUESTOS</th>
+                  <th *ngIf="estatus =='crear'">SELECCIONAR</th>
+                  <th *ngIf="estatus !='crear'">PROCESADA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let a of deficiencias; let i = index"
+                  [ngStyle]="{'background': a.seleccionada == true ? '#008e00' : 'lightgrey' }">
+                  <td>{{a.n_tarea}}</td>
+                  <td>{{a.id_deficiencia}}</td>
+                  <td>{{a.tipo_deficiencia}}</td>
+                  <td>
+                    <button type="submit" class="btn btn-brand btn-warning  btn-primary btn-square mr-1"
+                      style="margin-bottom: 4px" title="DEFICIENCIA" (click)="deficiencia(a, Mdl_deficiencias)">
+                      <!-- <i class="fa fa-save"></i> -->
+                      <i class="fa fa-info-circle"></i>
+                      <!-- <div class="col-6 col-sm-4 col-md-3 col-lg-2"><i class="fa fa-info-circle fa-lg mt-4"></i><br>info-circle </div> -->
+                      <!-- <span>GUARDAR</span> -->
+                    </button>
+                  </td>
+                  <td>
+                    <button type="submit" class="btn btn-brand btn-success  btn-primary btn-square mr-1"
+                      style="margin-bottom: 4px" title="REPUESTOS" (click)="repuestos(a, Mdl_requisiciones)">
+                      <i class="fa fa-list"></i>
+                      <!-- <span>GUARDAR</span> -->
+                    </button>
+                  </td>
+                  <td *ngIf="estatus =='crear'">
+                    <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                      *ngIf="a.seleccionada== false" style="margin-bottom: 4px" title="SELECCIONAR"
+                      (click)="selecionar_deficiencia(a, i)">
+                      <i class="fa fa-check"></i>
+                    </button>
+                    <button type="submit" class="btn btn-brand btn-danger  btn-primary btn-square mr-1"
+                      *ngIf="a.seleccionada== true" style="margin-bottom: 4px" title="SELECCIONAR"
+                      (click)="deselecionar_deficiencia(a, i)">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </td>
+                  <td>
+                      <button type="button" class="btn btn-brand btn-default btn-square mr-1"
+                      *ngIf="a.procesada == 0" style="margin-bottom: 4px" title="PROCESAR"
+                      (click)="procesa_deficiencia(a)">
+                      <i class="fa fa-check"></i>
+                    </button>
+                    <button type="button" class="btn btn-brand btn-success btn-square mr-1"
+                    *ngIf="a.procesada == 1" style="margin-bottom: 4px" title=""
+                    (click)="procesa_deficiencia(a)">
+                    <i class="fa fa-check"></i>
+                  </button>
+                    <!-- <input type="checkbox" [(ngModel)]="a.procesada" (click)="procesa_deficiencia(a)" name="procesadas" id="id_procesadas"> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmDeff)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar(frmDeff)"
+            [disabled]="!frmDeff.form.valid || flag || solicitud.id_sistema == 0">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand  btn-danger btn-square mr-1" *ngIf="estatus != 'crear' && estatus != 'detalle'"
+            style="margin-bottom: 4px" title="CANCELAR ORDEN DE TRABAJO" (click)="cancelar_orden()">
+            <i class="fa fa-close"></i>
+            <span>CANCELAR ORDEN DE TRABAJO</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary btn-square mr-1" *ngIf="estatus != 'crear' && estatus != 'detalle'"
+            style="margin-bottom: 4px" title="CERRAR ORDEN DE TRABAJO" (click)="cerrar_orden()" [disabled]="!bl_cerrar_orden">
+            <i class="fa fa-check"></i>
+            <span>CERRAR ORDEN DE TRABAJO</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal de sistemas -->
+<div bsModal #Mdl_sistema="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de sistemas</h4>
+        <button type="button" class="close" (click)="cancelar_Mdl_sistema(Mdl_sistema)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="id_sistema">Buscar sistema</label>
+          <div class="col-md-6">
+            <input type="text" id="id_sistema" name="id_sistema" class="form-control" [(ngModel)]="filtrar_sistemas">
+          </div>
+        </div>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th>NÚMERO DE SISTEMA</th>
+              <th>NOMBRE</th>
+              <th>MODELO</th>
+              <th class="text-center">ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of sistemas | filterBy: ['id_sistema', 'nombre', 'numero_serie']: filtrar_sistemas">
+              <td>{{a.id_sistema}}</td>
+              <td>{{a.nombre}}</td>
+              <td>{{a.nombre_modelo}}</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square"
+                  style="margin-bottom: 4px" title="SELECCIONAR SISTEMA" (click)="seleccion_sistema(a)"
+                  *ngIf="a.id_sistema != solicitud.id_sistema">
+                  <i class="fa fa-check fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-brand btn-danger  btn-primary btn-square"
+                  style="margin-bottom: 4px" title="DESELECCIONAR SISTEMA" (click)="deseleccion_sistema()"
+                  *ngIf="a.id_sistema == solicitud.id_sistema">
+                  <i class="fa fa-times fa-lg"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="cancelar_Mdl_sistema(Mdl_sistema)">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="guardar_Mdl_sistema(Mdl_sistema)" [disabled]="solicitud.id_sistema == 0">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- modal de deficiencias -->
+<div bsModal #Mdl_deficiencias="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Detalle de la deficiencia</h4>
+        <button type="button" class="close" (click)="cancelar_Mdl_deficiencias(Mdl_deficiencias)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-md-3">
+            <label class="col-form-label"><b>Posible Falla: </b></label>
+          </div>
+          <div class="col-md-9">
+            <label class="col-form-label">{{deficiencias_detalle.posible_falla}}</label>
+          </div>
+          <div class="col-md-3">
+            <label class="col-form-label"><b>Detalle de la deficiencia: </b></label>
+          </div>
+          <div class="col-md-9">
+            <label class="col-form-label">{{deficiencias_detalle.descripcion}}</label>
+          </div>
+          <hr>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="cancelar_Mdl_deficiencias(Mdl_deficiencias)">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- modal de repuestos (requisiciones) -->
+<div bsModal #Mdl_requisiciones="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de repuestos</h4>
+        <button type="button" class="close" (click)="cancelar_Mdl_requisiciones(Mdl_requisiciones)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>NOMBRE</th>
+              <th>PRIORIDAD</th>
+              <th>CANTIDAD</th>
+              <th class="text-center" *ngIf="estatus =='crear'">ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of lista_repuestos; let i = index"
+            [ngStyle]="{'background': a.seleccionada == true ? '#008e00' : 'lightgrey' }">
+              <td>{{a.nombre_parte}}</td>
+              <td>{{a.prioridad}}</td>
+              <td>
+                {{a.cantidad}}
+                  <!-- <input class="form-control" id="cantidad" type="text" name="cantidad" [(ngModel)]="a.cantidad"
+                  placeholder="Cantidad requerida" [disabled]="estatus != 'crear'"> -->
+              </td>
+              <td class="text-center" *ngIf="estatus =='crear'">
+                <button type="button" class="btn btn-brand btn-primary btn-square mr-1" title="SELECCIONAR REPUESTO" *ngIf="a.seleccionada == false"
+                  style="margin-bottom: 4px" data-toggle="modal" (click)="selecionar_requisicion(a, i)">
+                  <i class="fa fa-check fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-brand btn-danger btn-square mr-1" title="DESELECCIONAR REPUESTO" *ngIf="a.seleccionada == true"
+                  style="margin-bottom: 4px" data-toggle="modal" (click)="deselecionar_requisicion(a, i)">
+                  <i class="fa fa-times fa-lg"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="cancelar_Mdl_requisiciones(Mdl_requisiciones)">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="guardar_Mdl_requisiciones(Mdl_requisiciones)" [disabled]="solicitud.id_sistema == 0">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

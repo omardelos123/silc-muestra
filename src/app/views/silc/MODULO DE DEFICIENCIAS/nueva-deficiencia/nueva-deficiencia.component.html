@@ -1,0 +1,391 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal" #frmDeff="ngForm" autocomplete="off">
+
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong> son
+              requeridos.</p>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_sistema"> <span class="requerido">* </span>
+              Administrativo
+              <span class="badge badge-pill badge-secondary" popover="Sistema que contiene la falla"
+                triggers="mouseenter:mouseleave">?</span>
+            </label>
+            <div class="col-md-9">
+              <div class="input-group">
+                <input class="form-control" id="id_sistema" type="text" name="id_sistema" [(ngModel)]="sistema_nombre"
+                  placeholder="Nombre del Sistema" disabled required>
+                <span class="input-group-append">
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                    style="margin-bottom: 4px" title="BUSCAR SISTEMA" (click)="abrir_Mdl_sistema(Mdl_sistema)">
+                    <i class="fa fa-search"></i>
+                    <span>BUSCAR SISTEMA</span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Id_tipo_de_deficiencia"><span class="requerido">*
+              </span>Tipo
+              de
+              deficiencia</label>
+            <div class="col-md-9">
+
+              <div class="input-group">
+                <select id="Id_tipo_de_deficiencia" name="Id_tipo_de_deficiencia" class="form-control"
+                  [(ngModel)]="solicitud.id_tipo_deficiencia" (change)="prioridades()" required>
+                  <option value="">- Selecione el tipo de deficiencia -</option>
+                  <option value="{{a.id_tipo_deficiencia}}" *ngFor="let a of tipo_de_deficiencia">{{a.nombre}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_posible_falla">Posibles fallas</label>
+            <div class="col-md-9">
+
+              <div class="input-group">
+                <input class="form-control" id="id_posible_falla" type="text" name="id_posible_falla"
+                  [(ngModel)]="falla_nombre" placeholder="Nombre de la falla" disabled required>
+                <span class="input-group-append">
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                    style="margin-bottom: 4px" title="POSIBLES FALLAS" (click)="run_posibles_fallas(Mdl_fallas)"
+                    [disabled]="solicitud.id_tipo_deficiencia == 0 || solicitud.id_sistema == 0">
+                    <i class="fa fa-search"></i>
+                    <span>BUSCAR FALLAS</span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Id_tipo_de_mantenimiento"><span class="requerido">*
+              </span>Tipo
+              de mantenimiento</label>
+            <div class="col-md-9">
+              <select id="Id_tipo_de_mantenimiento" name="Id_tipo_de_mantenimiento" class="form-control"
+                [(ngModel)]="solicitud.id_tipo_mantenimiento" required>
+                <option value="">- Selecione tipo de mantenimiento -</option>
+                <option value="{{a.id_tipo_mantenimiento}}" *ngFor="let a of tipo_de_mantenimiento">{{a.nombre}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_sistema"> Requisiciones
+              <span class="badge badge-pill badge-secondary" popover="Requisiciones para reparar la deficiencia"
+                triggers="mouseenter:mouseleave">?</span>
+            </label>
+            <div class="col-md-9">
+              <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                style="margin-bottom: 4px" title="SELECCIONAR REQUISICIONES"
+                (click)="run_catalogo_de_compania(Mdl_requi)" [disabled]="solicitud.id_sistema == 0">
+                <i class="fa fa-search"></i>
+                <span>SELECCIONAR REQUISICIONES</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="fecha_deficiencia">Fecha de mantenimiento</label>
+            <div class="col-md-9">
+              <input class="form-control" id="fecha_deficiencia" type="date" name="fecha_deficiencia"
+                placeholder="Fecha de mantenimiento" [ngModel]="solicitud.fecha_deficiencia | date:'yyyy-MM-dd'"
+                [value]="solicitud.fecha_deficiencia | date:'yyyy-MM-dd'"
+                (ngModelChange)="solicitud.fecha_deficiencia = $event">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Descripcion">Descripción</label>
+            <div class="col-md-9">
+              <textarea id="Descripcion" name="Descripcion" rows="3" class="form-control" placeholder="Descripción"
+                [(ngModel)]="solicitud.descripcion"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmDeff)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar(frmDeff)"
+            [disabled]="!frmDeff.form.valid || flag || solicitud.id_sistema == 0">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal de sistemas -->
+<div bsModal #Mdl_sistema="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de sistemas</h4>
+        <button type="button" class="close" (click)="cancelar_Mdl_sistema(Mdl_sistema)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="id_sistema_select">Filtrar sistema</label>
+          <div class="col-md-9">
+            <input type="text" id="id_sistema_select" name="id_sistema_select" class="form-control"
+              placeholder="Filtrar sistema" [(ngModel)]="filtrar_sistemas"
+              popover="Puedes filtrar por nombre, número de serie, número de sistema" triggers="mouseenter:mouseleave">
+          </div>
+        </div>
+
+
+        <div class="form-group row" title="Sistema seleccionado" *ngIf="solicitud.id_sistema != 0">
+          <div class="col-md-12">
+            <label>Sistema seleccionado: </label>
+          </div>
+          <label class="col-md-3 col-form-label"><b>Nombre del sistema: </b></label>
+          <label class="col-md-3 col-form-label"><ins>{{sistema_seleccionado.nombre}}</ins></label>
+          <label class="col-md-3 col-form-label"><b>Número de serie: </b></label>
+          <label class="col-md-3 col-form-label"><ins>{{sistema_seleccionado.numero_serie}}</ins></label>
+          <hr>
+        </div>
+        <div class="table-responsive table-modal">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>NOMBRE</th>
+                <th>NÚMEROD DE SERIE</th>
+                <th class="text-center">ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of sistemas | filterBy: ['id_sistema', 'nombre', 'numero_serie']: filtrar_sistemas"
+                [ngStyle]="{'background': a.id_sistema == solicitud.id_sistema ? 'rgba(32, 168, 216, 0.4)' : 'none' }"
+                (dblclick)="seleccion_sistema(a)" title="Doble click para seleccionar el sistema">
+                <td>{{a.nombre}}</td>
+                <td>{{a.numero_serie}}</td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square"
+                    style="margin-bottom: 4px" title="SELECCIONAR SISTEMA" (click)="seleccion_sistema(a)"
+                    *ngIf="a.id_sistema != solicitud.id_sistema">
+                    <i class="fa fa-check fa-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-brand btn-danger  btn-primary btn-square"
+                    style="margin-bottom: 4px" title="DESELECCIONAR SISTEMA" (click)="deseleccion_sistema()"
+                    *ngIf="a.id_sistema == solicitud.id_sistema">
+                    <i class="fa fa-times fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="cancelar_Mdl_sistema(Mdl_sistema)">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="guardar_Mdl_sistema(Mdl_sistema)" [disabled]="solicitud.id_sistema == 0">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- modal de POSIBLES FALLAS -->
+<div bsModal #Mdl_fallas="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de Posibles fallas</h4>
+        <button type="button" class="close" (click)="Mdl_fallas.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="id_sistema_select">Filtrar fallas</label>
+          <div class="col-md-6">
+            <input type="text" id="id_sistema_select" name="id_sistema_select" class="form-control"
+              placeholder="Filtrar fallas" [(ngModel)]="filtrar_posible_falla"
+              popover="Puedes filtrar la falla por nombre" triggers="mouseenter:mouseleave">
+          </div>
+          <div class="col-md-3">
+            <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+              style="margin-bottom: 4px" title="AGREGAR FALLA">
+              <i class="fa fa-plus"></i>
+              <span>AGREGAR FALLA</span>
+            </button>
+          </div>
+        </div>
+        <div class="table-responsive table-modal">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>CÓDIGO DE FALLA</th>
+                <th>NOMBRE</th>
+                <th class="text-right">SELECCIONAR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of posibles_fallas|filterBy: ['nombre']: filtrar_posible_falla; let i = index"
+                [ngStyle]="{'background': a.id_posible_falla == solicitud.id_posible_falla ? 'rgba(32, 168, 216, 0.4)' : 'none' }"
+                (dblclick)="seleccion_falla(a)" title="Doble click para seleccionar la falla">
+                <td>{{a.codigo_falla}}</td>
+                <td>{{a.nombre}}</td>
+                <td class="text-right">
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square"
+                    style="margin-bottom: 4px" title="SELECCIONAR FALLA" (click)="seleccion_falla(a)"
+                    *ngIf="a.id_posible_falla != solicitud.id_posible_falla"
+                    [ngStyle]="{'background': a.seleccionada == false ? 'rgba(32, 168, 216, 0.4)' : '' }">
+                    <i class="fa fa-check fa-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-brand btn-danger btn-primary btn-square"
+                    style="margin-bottom: 4px" title="DESELECCIONAR FALLA" (click)="deseleccion_p_falla()"
+                    *ngIf="a.id_posible_falla == solicitud.id_posible_falla">
+                    <i class="fa fa-times fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="cancelar_Mdl_p_falla(Mdl_fallas)">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="guardar_Mdl_p_falla(Mdl_fallas)">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- modal Requisiciones -->
+<div bsModal #Mdl_requi="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de Partes</h4>
+        <button type="button" class="close" (click)="cancelar_Mdl_requi(Mdl_requi)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="id_sistema_select">Filtrar partes</label>
+          <div class="col-md-6">
+            <input type="text" id="id_sistema_select" name="id_sistema_select" class="form-control"
+              placeholder="Filtrar partes" [(ngModel)]="filtrar_sistemas" popover="Puedes filtrar las partes por nombre"
+              triggers="mouseenter:mouseleave">
+          </div>
+        </div>
+        <div class="table-responsive table-modal">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>NOMBRE</th>
+                <th>CANTIDAD</th>
+                <th>PRIORIDAD</th>
+                <th>ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of partes|filterBy: ['nombre']: filtrar_sistemas; let i = index"
+                [ngStyle]="{'background': a.requerida == true ? 'rgba(32, 168, 216, 0.4)' : 'none' }">
+                <td>{{a.nombre}}</td>
+                <td>
+                  <input class="form-control" id="cant_parte" type="number" name="cant_parte" [(ngModel)]="a.cantidad"
+                    placeholder="Cantidad" popover="Cantidad disponible en el inventario actual: {{a.cant_disponible}}"
+                    triggers="mouseenter:mouseleave">
+                    <span class="requerido" *ngIf="a.cantidad > a.cant_autorizada">Cantidad Autorizada: {{a.cant_autorizada}}</span><br>
+                    <span style="color:#c1c100" *ngIf="(a.cant_disponible - a.cantidad) < a.min_permitida">Cantidad minima permitida en inventario: {{a.min_permitida}}</span>
+                </td>
+                <td>
+                  <select id="Id_tipo_de_mantenimiento" name="Id_tipo_de_mantenimiento" class="form-control"
+                    [(ngModel)]="a.id_prioridad">
+                    <option value="0">- Seleccione la prioridad -</option>
+                    <option *ngFor="let a of list_prioridades" value="{{a.id_prioridad}}">{{a.nombre}}</option>
+                    <!-- <option value="{{a.id_tipo_mantenimiento}}" *ngFor="let a of tipo_de_mantenimiento">{{a.nombre}}
+                    </option> -->
+                  </select>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square"
+                    style="margin-bottom: 4px" title="SELECCIONAR PARTE" (click)="seleccion_parte(i)"
+                    *ngIf="a.requerida == false"
+                    [disabled]="(a.cantidad == 0 || a.cantidad == '' || a.id_prioridad == 0) || (a.cantidad > a.cant_autorizada)">
+                    <i class="fa fa-check fa-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-brand btn-danger  btn-primary btn-square"
+                    style="margin-bottom: 4px" title="DESELECCIONAR PARTE"
+                    (click)="deseleccion_parte(i, a.id_parte_compania)" *ngIf="a.requerida == true">
+                    <i class="fa fa-times fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="cancelar_Mdl_requi(Mdl_requi)">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="guardar_Mdl_requi(Mdl_requi)">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

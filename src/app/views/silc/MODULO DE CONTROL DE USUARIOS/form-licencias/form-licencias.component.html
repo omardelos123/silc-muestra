@@ -1,0 +1,174 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal" #frmEquipo="ngForm" autocomplete="off">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>
+              son requeridos.</p>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Nombre"><span class="requerido">* </span>Nombre</label>
+            <div class="col-md-9">
+              <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Nombre"
+                [disabled]="estatus=='detalle'" [(ngModel)]="solicitud.nombre" required #nombre="ngModel">
+              <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="nombre.errors.required">
+                  El <strong>Nombre</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_sistema"> <span class="requerido">* </span>
+              Equipos
+            </label>
+            <div class="col-md-9">
+              <div class="input-group">
+                <input class="form-control" id="id_sistema" type="text" name="id_sistema" [(ngModel)]="nombres_sistemas"
+                  placeholder="Equipos"  required #nombre_sis="ngModel" [disabled]="estatus=='detalle'">
+                <span class="input-group-append">
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                    style="margin-bottom: 4px" title="BUSCAR EQUIPOS" (click)="abrir_Mdl_sistema(Mdl_sistema)">
+                    <i class="fa fa-search"></i>
+                    <span>BUSCAR EQUIPOS</span>
+                  </button>
+                </span>
+              </div>
+
+              <div *ngIf="nombre_sis.invalid && (nombre_sis.dirty || nombre_sis.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="nombre_sis.errors.required">
+                  Los <strong>Equipos</strong> son valores requerido.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="descripcion">Descripción</label>
+            <div class="col-md-9">
+              <textarea id="descripcion" name="descripcion" class="form-control" placeholder="Descripción"
+                [disabled]="estatus=='detalle'" [(ngModel)]="solicitud.descripcion"></textarea>
+
+
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Estatus">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" class="switch-input" [(ngModel)]="solicitud.sw_activo"
+                  [ngModelOptions]="{standalone: true}" [disabled]="estatus=='detalle'">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmEquipo)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" *ngIf="btn_acciones.btn_guardar"
+            (click)="guardar(frmEquipo)" [disabled]="!frmEquipo.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/.row-->
+
+<!-- modal de sistemas -->
+<div bsModal #Mdl_sistema="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de sistemas</h4>
+        <button type="button" class="close" (click)="cancelar_Mdl_sistema(Mdl_sistema)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="id_sistema_select">Filtrar sistema</label>
+          <div class="col-md-9">
+            <input type="text" id="id_sistema_select" name="id_sistema_select" class="form-control"
+              placeholder="Filtrar sistema" [(ngModel)]="filtrar_sistemas"
+              popover="Puedes filtrar por nombre, número de sistema" triggers="mouseenter:mouseleave">
+          </div>
+        </div>
+        
+        <div class="table-responsive table-modal">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>EQUIPO</th>
+                  <th>DESCRIPCIÓN</th>
+                  <th class="text-center">ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of list_equipos | filterBy: ['id_clase', 'nombre', 'descripcion']: filtrar_sistemas; let i = index"
+                [ngStyle]="{'background': a.seleccionado == true ? 'rgba(32, 168, 216, 0.4)' : 'none' }"
+                (dblclick)="seleccion_sistema(a)" title="Doble click para seleccionar el sistema">
+                <td>{{a.nombre}}</td>
+                <td>{{a.descripcion}}</td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square"
+                    style="margin-bottom: 4px" title="SELECCIONAR SISTEMA" (click)="seleccion_sistema(a,i)"
+                    *ngIf="a.seleccionado != true" [disabled]="estatus=='detalle'">
+                    <i class="fa fa-check fa-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-brand btn-danger  btn-primary btn-square"
+                    style="margin-bottom: 4px" title="DESELECCIONAR SISTEMA" (click)="deseleccion_sistema(a,i)"
+                    *ngIf="a.seleccionado == true" [disabled]="estatus=='detalle'">
+                    <i class="fa fa-times fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="cancelar_Mdl_sistema(Mdl_sistema)">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="guardar_Mdl_sistema(Mdl_sistema)">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

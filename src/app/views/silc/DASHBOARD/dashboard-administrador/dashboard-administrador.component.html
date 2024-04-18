@@ -1,0 +1,169 @@
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="animated fadeIn">
+ 
+
+
+  <br>
+  <div>
+    <div class="row">
+      <div class="col-sm-6 col-lg-3" *ngIf="bl_graficos">
+        <div class="brand-card">
+          <div class="brand-card-header bg-facebook">
+            <i class="icon-book-open"></i>
+            <div class="chart-wrapper">
+              <canvas baseChart class="chart" [datasets]="brandBoxChartData1" [labels]="brandBoxChartLabels"
+                [options]="brandBoxChartOptions" [colors]="brandBoxChartColours" [legend]="brandBoxChartLegend"
+                [chartType]="brandBoxChartType"></canvas>
+            </div>
+          </div>
+          <div class="brand-card-body">
+            <div>
+              <div class="text-value"> {{costo_total_inventario | currency }}</div>
+              <!-- <div class="text-value"> {{costo_total_inventario }}</div> -->
+              <div class="text-uppercase text-muted small">COSTO TOTAL DE INVENTARIO</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+      <div class="col-sm-6 col-lg-3 " *ngIf="bl_graficos">
+        <div class="brand-card">
+          <div class="brand-card-header bg-twitter">
+            <i class="icon-calculator"></i>
+            <div class="chart-wrapper">
+              <canvas baseChart class="chart" [datasets]="brandBoxChartData2" [labels]="brandBoxChartLabels"
+                [options]="brandBoxChartOptions" [colors]="brandBoxChartColours" [legend]="brandBoxChartLegend"
+                [chartType]="brandBoxChartType"></canvas>
+            </div>
+          </div>
+          <div class="brand-card-body">
+            <div>
+              <div class="text-value"> {{cantidad_en_inventario}}</div>
+              <div class="text-uppercase text-muted small">CANTIDAD EN INVENTARIO</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+
+
+      <div class="col-sm-6 col-lg-3" *ngIf="bl_graficos">
+        <div class="brand-card">
+          <div class="brand-card-header bg-linkedin">
+            <i class="fa fa-calendar-minus-o"></i>
+            <div class="chart-wrapper">
+              <canvas baseChart class="chart" [datasets]="brandBoxChartData3" [labels]="brandBoxChartLabels"
+                [options]="brandBoxChartOptions" [colors]="brandBoxChartColours" [legend]="brandBoxChartLegend"
+                [chartType]="brandBoxChartType"></canvas>
+            </div>
+          </div>
+          <div class="brand-card-body">
+            <div>
+              <div class="text-value">{{cantidad_minimas}}</div>
+              <div class="text-uppercase text-muted small">CANTIDAD MINIMAS EN INVENTARIO</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+      <div class="col-sm-6 col-lg-3" *ngIf="bl_graficos">
+        <div class="brand-card">
+          <div class="brand-card-header bg-google-plus">
+            <i class="cui-people"></i>
+            <div class="chart-wrapper">
+              <canvas baseChart class="chart" [datasets]="brandBoxChartData4" [labels]="brandBoxChartLabels"
+                [options]="brandBoxChartOptions" [colors]="brandBoxChartColours" [legend]="brandBoxChartLegend"
+                [chartType]="brandBoxChartType"></canvas>
+            </div>
+          </div>
+          <div class="brand-card-body">
+            <div>
+              <div class="text-value">{{cantidad_autorizadas}}</div>
+              <div class="text-uppercase text-muted small">CANTIDAD AUTORIZADAS EN INVENTARIO</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+    <div class="row text-center">
+        <label class="col-md-2 col-form-label" for="fecha_desde"><strong>Fecha desde</strong></label>
+        <div class="col-md-2">
+          <input class="form-control" id="fecha_desde" type="date" name="fecha_desde" placeholder="Fecha"
+            [ngModel]="solicitud.fecha_desde " [value]="solicitud.fecha_desde"
+            (ngModelChange)="solicitud.fecha_desde = $event" class="form-control form-control-sm">
+    
+        </div>
+        <label class="col-md-2 col-form-label" for="fecha_hasta"><strong>Fecha hasta</strong></label>
+        <div class="col-md-2">
+          <input class="form-control" id="fecha_hasta" type="date" name="fecha_hasta" placeholder="Fecha"
+            [ngModel]="solicitud.fecha_hasta" [value]="solicitud.fecha_hasta"
+            (ngModelChange)="solicitud.fecha_hasta = $event" class="form-control form-control-sm">
+    
+        </div>
+        <div  class="col-md-4">
+          <button type="button " class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="BUSCAR" (click)="BUSCAR_DATA_DASHBOARD()">
+            <i class="fa fa-search"></i>
+            <span>BUSCAR</span>
+          </button>
+        </div>
+      </div>
+      <BR>
+    <div class="row">
+      <div class="col-sm-6 col-lg-6" *ngIf="bl_graficos">
+        <div class="card">
+          <div class="card-header">
+            <strong>HISTORICO DE INVENTARIO</strong>
+            <div class="card-header-actions">
+              <!--/<a href="http://www.chartjs.org"> 
+                <small class="text-muted">docs</small>
+              </a>-->
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrapper">
+              <canvas baseChart class="chart" [datasets]="barChartData" [labels]="barChartLabels"
+                [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+                (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-6" *ngIf="bl_graficos">
+        <div class="card">
+          <div class="card-header">
+            <strong>MOVIMIENTO DE INVENTARIO</strong>
+            <div class="card-header-actions">
+              <!--/ <a href="http://www.chartjs.org">
+                <small class="text-muted">docs</small>
+              </a>-->
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrapper">
+              <canvas baseChart class="chart" [datasets]="lineChartData" [labels]="lineChartLabels"
+                [options]="lineChartOptions" [colors]="lineChartColours" [legend]="lineChartLegend"
+                [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>

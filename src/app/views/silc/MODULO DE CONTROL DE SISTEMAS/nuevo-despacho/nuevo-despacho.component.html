@@ -1,0 +1,483 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal" #frmDesp="ngForm" autocomplete="off">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong> son
+              requeridos.</p>
+          </div>
+
+          <!-- sistema -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_sistema"><span class="requerido">* </span>Sistema
+              <span class="badge badge-pill badge-secondary" popover="Es el número de sistema a despachar"
+                triggers="mouseenter:mouseleave">?</span>
+            </label>
+            <div class="col-md-6">
+              <input class="form-control" id="id_sistema" type="text" name="Id_sistema" [(ngModel)]="sistema_nombre"
+                placeholder="Nombre del Sistema" #id_sistema="ngModel" disabled>
+              <div *ngIf="id_sistema.invalid && (id_sistema.dirty || id_sistema.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="id_sistema.errors.required">
+                  El número de <strong>Identidad personal</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                style="margin-bottom: 4px" title="BUSCAR SISTEMA" data-toggle="modal" (click)="largeModal.show()">
+                <i class="fa fa-search"></i>
+                <span>BUSCAR SISTEMA</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- destino -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Destino">Destino
+              <span class="badge badge-pill badge-secondary" popover="Donde va el equipo"
+                triggers="mouseenter:mouseleave">?</span>
+            </label>
+            <div class="col-md-9">
+              <select id="Destino" name="Destino" class="form-control" [(ngModel)]="solicitud.id_destino">
+                <option value="0">- Selecione un destino -</option>
+                <option *ngFor="let a of destinos" value="{{a.id_destino}}">{{a.nombre}} </option>
+              </select>
+            </div>
+          </div>
+
+          <!--Unidad lectura -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="inline-radios">Unidad Lectura</label>
+            <div class="col-md-3 col-form-label">
+              <div class="text-center">
+                <label class="form-check-label" for="sw_km">Km</label> <br>
+                <label class="switch switch-label switch-pill switch-primary">
+                  <input type="radio" name="lectura" id="sw_km" class="switch-input" value="K" [(ngModel)]="solicitud.lectura">
+                  <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3 col-form-label">
+              <div class="text-center">
+                <label class="form-check-label" for="sw_millas">Millas</label> <br>
+                <label class="switch switch-label switch-pill switch-primary">
+                  <input type="radio" name="lectura" id="sw_millas" class="switch-input" value="M" [(ngModel)]="solicitud.lectura">
+                  <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3 col-form-label">
+              <div class="text-center">
+                <label class="form-check-label" for="sw_hora">Hora</label> <br>
+                <label class="switch switch-label switch-pill switch-primary">
+                  <input type="radio" name="lectura" id="sw_hora" class="switch-input" value="H" [(ngModel)]="solicitud.lectura">
+                  <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- valor lectura -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_valor_lectura">Valor Lectura
+              <span class="badge badge-pill badge-secondary" popover="Es el número de kilometraje"
+                triggers="mouseenter:mouseleave">?</span>
+            </label>
+            <div class="col-md-6">
+              <input class="form-control" id="id_valor_lectura" type="text" name="id_valor_lectura"
+               [(ngModel)]="solicitud.valor_lectura" placeholder="Valor del kilometraje" #id_valor_lectura="ngModel" [disabled]="estatus == 'recibir'">
+            </div>
+          </div>
+
+            <!-- valor lectura retorno -->
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="id_valor_lectura_r">Valor Lectura Retorno
+                <span class="badge badge-pill badge-secondary" popover="Es el número de kilometraje cuando retorna el sistema"
+                  triggers="mouseenter:mouseleave">?</span>
+              </label>
+              <div class="col-md-6">
+                <input class="form-control" id="id_valor_lectura_r" type="text" name="id_valor_lectura_r"
+                 [(ngModel)]="solicitud.valor_lectura_retorno" placeholder="Valor del kilometraje" [disabled]="estatus != 'recibir'">
+              </div>
+            </div>
+
+          <!-- op principal -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_principal">Operador principal</label>
+            <div class="col-md-6">
+              <input class="form-control" id="id_principal" type="text" name="id_principal"
+                [(ngModel)]="op_principal_nombre" placeholder="Nombre del operador principal" disabled>
+            </div>
+            <div class="col-md-3">
+              <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                style="margin-bottom: 4px" title="BUSCAR OPERADOR" data-toggle="modal" (click)="Mdlpersonal.show()">
+                <i class="fa fa-search"></i>
+                <span>BUSCAR OPERADOR</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- op secundario  -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_secundario">Operador secundadrio</label>
+            <div class="col-md-6">
+              <input class="form-control" id="id_secundario" type="text" name="id_secundario"
+                [(ngModel)]="op_secundario_nombre" placeholder="Nombre del operador secundadrio" disabled>
+            </div>
+            <div class="col-md-3">
+              <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+                style="margin-bottom: 4px" title="BUSCAR OPERADOR" data-toggle="modal" (click)="Mdlpersonal2.show()">
+                <i class="fa fa-search"></i>
+                <span>BUSCAR OPERADOR</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- fecha de salida -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="fecha_de_salida">Fecha de salida</label>
+            <div class="col-md-9">
+              <!-- <input class="form-control" id="fecha_de_salida" type="date" name="fecha_de_salida"
+                placeholder="Fecha de salida" [(ngModel)]="solicitud.fecha_hora_salida"> -->
+
+              <input class="form-control" id="fecha_de_salida" type="date" name="fecha_de_salida"
+                placeholder="Fecha de salida" [ngModel]="solicitud.fecha_hora_salida | date:'yyyy-MM-dd'"
+                [value]="solicitud.fecha_hora_salida | date:'yyyy-MM-dd'"
+                (ngModelChange)="solicitud.fecha_hora_salida = $event">
+            </div>
+          </div>
+
+          <!-- fecha de retonrno -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="fecha_de_retorno">Fecha de retorno</label>
+            <div class="col-md-9">
+              <!-- <input class="form-control" id="fecha_de_retorno" type="date" name="fecha_de_retorno"
+                placeholder="Fecha de retorno" [(ngModel)]="solicitud.fecha_hora_retorno"> -->
+
+              <input class="form-control" id="fecha_de_retorno" type="date" name="fecha_de_retorno"
+                placeholder="Fecha de retorno" [ngModel]="solicitud.fecha_hora_retorno | date:'yyyy-MM-dd'"
+                [value]="solicitud.fecha_hora_retorno | date:'yyyy-MM-dd'"
+                (ngModelChange)="solicitud.fecha_hora_retorno = $event">
+            </div>
+          </div>
+
+          <!-- descripcion -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="observacion">Descripción</label>
+            <div class="col-md-9">
+              <textarea id="observacion" name="observacion" rows="3" class="form-control" placeholder="descripción"
+                [(ngModel)]="solicitud.observaciones"></textarea>
+            </div>
+          </div>
+
+           <!-- cantidad de combustible -->
+           <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="litros_combustible">Litros combustible
+              <span class="badge badge-pill badge-secondary" popover="Cantidad de combustible en litros"
+                triggers="mouseenter:mouseleave">?</span>
+            </label>
+            <div class="col-md-6">
+              <input class="form-control" id="litros_combustible" type="text" name="litros_combustible"
+               [(ngModel)]="solicitud.litros_combustible" placeholder="Litros de combustible" [disabled]="estatus == 'recibir'">
+            </div>
+          </div>
+
+           <!-- costo de combustible -->
+           <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="costo_combustible">Costo de combustible
+            </label>
+            <div class="col-md-6">
+              <input class="form-control" id="costo_combustible" type="text" name="costo_combustible"
+               [(ngModel)]="solicitud.costo_combustible" placeholder="Costo de combustible" [disabled]="estatus == 'recibir'">
+            </div>
+          </div>
+
+          <!-- sw impreso -->
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="impreso">Impreso</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_impreso" class="switch-input" [(ngModel)]="solicitud.sw_impreso">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="sw_retorno">Retorno</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <!-- <input type="checkbox" id="sw_retorno" name="sw_retorno" class="switch-input" [(ngModel)]="solicitud.sw_retorno" [disabled]="estatus != 'recibir'" > -->
+                <input type="checkbox" id="sw_retorno" name="sw_retorno" class="switch-input" [(ngModel)]="solicitud.sw_retorno" [disabled]="true" >
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar()">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar()"
+            [disabled]="!frmDesp.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>{{btn_txt_guardar}}</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->
+
+
+<!-- modal de sistemas -->
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de sistemas</h4>
+        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="id_sistema_select">Filtrar sistema</label>
+          <div class="col-md-9">
+            <input type="text" id="id_sistema_select" name="id_sistema_select" class="form-control"
+              placeholder="Filtrar sistema" [(ngModel)]="filtrar_sistemas"
+              popover="Puedes filtrar por nombre, número de serie, número de sistema" triggers="mouseenter:mouseleave">
+          </div>
+        </div>
+
+
+        <div class="form-group row" title="Sistema seleccionado" *ngIf="solicitud.id_sistema != 0">
+          <div class="col-md-12">
+            <label>Sistema seleccionado: </label>
+          </div>
+          <label class="col-md-3 col-form-label"><b>Nombre del sistema: </b></label>
+          <label class="col-md-3 col-form-label"><ins>{{sistema_seleccionado.nombre}}</ins></label>
+          <label class="col-md-3 col-form-label"><b>Número de serie: </b></label>
+          <label class="col-md-3 col-form-label"><ins>{{sistema_seleccionado.numero_serie}}</ins></label>
+          <hr>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>NOMBRE</th>
+              <th>DESCRIPCIÓN</th>
+              <th class="text-center">ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of sistemas | filterBy: ['id_sistema', 'nombre', 'numero_serie']: filtrar_sistemas"
+              [ngStyle]="{'background': a.id_sistema == solicitud.id_sistema ? 'rgba(32, 168, 216, 0.4)' : 'none' }"
+              (dblclick)="seleccion_sistema(a)" title="Doble click para seleccionar el sistema">
+              <td>{{a.nombre}}</td>
+              <td>{{a.descripcion}}</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square"
+                  style="margin-bottom: 4px" title="SELECCIONAR SISTEMA" (click)="seleccion_sistema(a)">
+                  <i class="fa fa-check fa-lg"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="largeModal.hide()">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="guardar_Mdl_sistema(largeModal)">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- modal de personal operador primario-->
+<div bsModal #Mdlpersonal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de Operadores</h4>
+        <button type="button" class="close" (click)="Mdlpersonal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="id_operador_select">Filtrar Operadores</label>
+          <div class="col-md-9">
+            <input type="text" id="id_operador_select" name="id_operador_select" class="form-control"
+              placeholder="Filtrar operador" [(ngModel)]="filtrar_operador"
+              popover="Puedes filtrar por nombre o Identidad personal." triggers="mouseenter:mouseleave">
+          </div>
+        </div>
+
+        <div class="form-group row" title="Operador seleccionado" *ngIf="solicitud.id_operador_principal != 0">
+          <div class="col-md-12">
+            <label>Operador seleccionado: </label>
+          </div>
+          <label class="col-md-3 col-form-label"><b>Operador principal: </b></label>
+          <label class="col-md-3 col-form-label"><ins>{{op_principal.nombre}} {{op_principal.apellido}}</ins></label>
+          <label class="col-md-3 col-form-label"><b>Identidad personal: </b></label>
+          <label class="col-md-3 col-form-label"><ins>{{op_principal.cedula}}</ins></label>
+          <hr>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>NOMBRE</th>
+              <th>IDENTIDAD PERSONAL</th>
+              <th class="text-center">ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of personal | filterBy: ['nombre', 'apellido', 'cedula']: filtrar_operador"
+              [ngStyle]="{'background': a.id_personal == solicitud.id_operador_principal ? 'rgba(32, 168, 216, 0.4)' : 'none' }"
+              (dblclick)="seleccion_operador_pricipal(a)" title="Doble click para seleccionar el Operador">
+              <td>{{a.nombre}} {{a.apellido}}</td>
+              <td>{{a.cedula}}</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square"
+                  style="margin-bottom: 4px" title="SELECCIONAR OPERADOR" (click)="seleccion_operador_pricipal(a)"
+                  *ngIf="(solicitud.id_operador_secundario != a.id_personal) 
+                  || (solicitud.id_operador_principal == 0 && solicitud.id_operador_secundario == 0)">
+                  <i class="fa fa-check fa-lg"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="Mdlpersonal.hide()">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="Mdlpersonal.hide()">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- modal de personal operador secundario-->
+<div bsModal #Mdlpersonal2="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Lista de Operadores</h4>
+        <button type="button" class="close" (click)="Mdlpersonal2.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="id_operador2_select">Filtrar Operadores</label>
+          <div class="col-md-9">
+            <input type="text" id="id_operador2_select" name="id_operador2_select" class="form-control"
+              placeholder="Filtrar operador" [(ngModel)]="filtrar_operador"
+              popover="Puedes filtrar por nombre o Identidad personal." triggers="mouseenter:mouseleave">
+          </div>
+        </div>
+
+        <div class="form-group row" title="Operador seleccionado" *ngIf="solicitud.id_operador_secundario != 0">
+          <div class="col-md-12">
+            <label>Operador seleccionado: </label>
+          </div>
+          <label class="col-md-3 col-form-label"><b>Operador secundario: </b></label>
+          <label class="col-md-3 col-form-label"><ins>{{op_secundario.nombre}} {{op_secundario.apellido}}</ins></label>
+          <label class="col-md-3 col-form-label"><b>Identidad personal: </b></label>
+          <label class="col-md-3 col-form-label"><ins>{{op_secundario.cedula}}</ins></label>
+          <hr>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>NOMBRE</th>
+              <th>IDENTIDAD PERSONAL</th>
+              <th class="text-center">ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of personal | filterBy: ['nombre', 'apellido', 'cedula']: filtrar_operador"
+              [ngStyle]="{'background': a.id_personal == solicitud.id_operador_secundario ? 'rgba(32, 168, 216, 0.4)' : 'none' }"
+              (dblclick)="seleccion_operador_secundario(a)" title="Doble click para seleccionar el Operador">
+              <td>{{a.nombre}} {{a.apellido}}</td>
+              <td>{{a.cedula}}</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square"
+                  style="margin-bottom: 4px" title="SELECCIONAR OPERADOR" (click)="seleccion_operador_secundario(a)"
+                  *ngIf="(solicitud.id_operador_principal != a.id_personal) 
+                  || (solicitud.id_operador_principal == 0 && solicitud.id_operador_secundario == 0)">
+                  <i class="fa fa-check fa-lg"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+          (click)="Mdlpersonal2.hide()">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+
+        <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR" (click)="Mdlpersonal2.hide()">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

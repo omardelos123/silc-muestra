@@ -1,0 +1,124 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+
+      </div>
+      <div class="card-body table-responsive">
+        <form class="form-horizontal" #frmDistritos="ngForm" autocomplete="off">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>
+              son requeridos.</p>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="pais"><span class="requerido">* </span>País</label>
+            <div class="col-md-9">
+              <select id="pais" name="pais" class="form-control" [(ngModel)]="solicitud.id_pais" required #paises="ngModel"  [disabled]="estatus=='detalle'">
+                <option value="">- Selecione el país -</option>
+                <option *ngFor="let xpais of pais" [value]=xpais.id_pais>{{xpais.nombre}}</option>
+              </select>
+              <div *ngIf="paises.invalid && (paises.dirty || paises.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="paises.errors.required">
+                  El <strong>País</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="provincia"><span class="requerido">* </span>Provincia</label>
+            <div class="col-md-9">
+              <select id="provincia" name="provincia" class="form-control" [(ngModel)]="solicitud.id_provincia"  [disabled]="estatus=='detalle'" 
+               required  #provincias="ngModel"  >
+                <option value="">- Selecione una provincia -</option>
+                <option *ngFor="let xprovincia of provincia" [value]=xprovincia.id_provincia>{{xprovincia.nombre}}</option>
+              </select>
+              <div *ngIf="provincias.invalid && (provincias.dirty || provincias.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="provincias.errors.required">
+                  La <strong>Provincia</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Distrito"><span class="requerido">* </span>Distrito</label>
+            <div class="col-md-9">
+              <input type="text" id="Distrito" name="Distrito" class="form-control" placeholder="Distrito" [(ngModel)]="solicitud.nombre"  [disabled]="estatus=='detalle'"
+                required #distritos="ngModel">
+              <div *ngIf="distritos.invalid && (distritos.dirty || distritos.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="distritos.errors.required">
+                  El <strong>Distrito</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Longitud"><span class="requerido">* </span>Longitud</label>
+            <div class="col-md-9">
+              <input type="text" id="Longitud" name="Longitud" class="form-control" placeholder="Longitud" [(ngModel)]="solicitud.longitud"  [disabled]="estatus=='detalle'"
+                required #longitud="ngModel">
+              <div *ngIf="longitud.invalid && (longitud.dirty || longitud.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="longitud.errors.required">
+                  La <strong>Longitud</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Latitud"><span class="requerido">* </span>Latitud</label>
+            <div class="col-md-9">
+              <input type="text" id="Latitud" name="Latitud" class="form-control" placeholder="Latitud" [(ngModel)]="solicitud.latitud"  [disabled]="estatus=='detalle'"
+                required #latitud="ngModel">
+              <div *ngIf="latitud.invalid && (latitud.dirty || latitud.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="latitud.errors.required">
+                  La <strong>Latitud</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Estatus">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_activo" class="switch-input" checked [(ngModel)]="solicitud.sw_activo"  [disabled]="estatus=='detalle'">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmDistritos)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar(frmDistritos)"  [disabled]="!frmDistritos.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

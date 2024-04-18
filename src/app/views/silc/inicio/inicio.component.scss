@@ -1,0 +1,47 @@
+h1 {
+    font-size: 10rem;
+}
+.titulo{
+    background: #2f353a;
+    color: white;
+}
+.contenedor-im-back div{
+    padding: 0;
+}
+.contenedor-im-back{
+    // background: url('assets/img/img_top.png');
+    // background-repeat: no-repeat;
+    // background-position-x: right;
+    // background-size: contain;
+}
+.titulo-principal{
+    background: #20a8d8;
+    color: white;
+}
+hr{
+    background: white;
+}
+
+@media only screen and (max-width: 1024px) {
+    h1 {
+        font-size: 8rem;
+    }
+    h2 {
+        font-size: 1.45rem;
+    }
+    h3 {
+        font-size: 1.25rem;
+    }
+  }
+
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 5rem;
+    }
+    h2 {
+        font-size: 1.35rem;
+    }
+    h3 {
+        font-size: 1rem;
+    }
+  }

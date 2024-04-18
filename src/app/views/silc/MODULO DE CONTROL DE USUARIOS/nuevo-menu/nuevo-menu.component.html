@@ -1,0 +1,125 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+            </div>
+            <div class="card-body">
+
+                <form class="form-horizontal" #frmMenu="ngForm" autocomplete="off">
+
+                    <div>
+                        <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>  son requeridos.</p>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="Nombre"> <span class="requerido">* </span> Nombre</label>
+                        <div class="col-md-9">
+                            <input type="text" id="Nombre" name="Nombre" class="form-control" [(ngModel)]="solicitud.nombre_menu"
+                                placeholder="Nombre" required #name="ngModel">
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger alert-requerido">
+                                <div *ngIf="name.errors.required">
+                                    El <strong>nombre</strong> es un valor requerido.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label class="col-md-3 col-form-label" for="link"><span class="requerido">* </span>Link</label>
+                        <div class="col-md-9">
+                            <input type="text" id="link" name="link" class="form-control" [(ngModel)]="solicitud.link"
+                                placeholder="Link" required #link="ngModel">
+                            <div *ngIf="link.invalid && (link.dirty || link.touched)" class="alert alert-danger alert-requerido">
+                                <div *ngIf="link.errors.required">
+                                    El <strong>link</strong> es un valor requerido.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="sw_contenedor">Es Contenedor</label>
+                        <div class="col-md-9">
+                            <label class="switch switch-label switch-success switch-lg">
+                                <input type="checkbox" id="sw_contenedor" name="sw_contenedor" class="switch-input"
+                                    checked [(ngModel)]="solicitud.sw_contenedor">
+                                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="contenedor">Pertenece a un contenedor </label>
+                        <div class="col-md-9">
+                            <select id="contenedor" name="contenedor" class="form-control" [(ngModel)]="solicitud.id_padre">
+                                <option value="0">- No pertenece a un contenedor -</option>
+                                <option value="{{a.id_menu}}" *ngFor="let a of menus_contenedores">{{a.nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="Descripcion">Descripción</label>
+                        <div class="col-md-9">
+                            <textarea id="Descripcion" name="Descripcion" rows="3" class="form-control" [(ngModel)]="solicitud.descripcion"
+                                placeholder="Descripción"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="mostrar">Mostrar en el menu</label>
+                        <div class="col-md-9">
+                            <label class="switch switch-label switch-success switch-lg">
+                                <input type="checkbox" id="mostrar" name="mostrar" class="switch-input" checked
+                                    [(ngModel)]="solicitud.sw_mostrar">
+                                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="Estaus">Estatus</label>
+                        <div class="col-md-9">
+                            <label class="switch switch-label switch-success switch-lg">
+                                <input type="checkbox" id="Estaus" name="Estaus" class="switch-input" checked
+                                    [(ngModel)]="solicitud.sw_activo">
+                                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="card-footer">
+                <div class="text-right">
+                    <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+                        (click)="cancelar()">
+                        <i class="fa fa-times"></i>
+                        <span>CANCELAR</span>
+                    </button>
+                    <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+                        title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmMenu)">
+                        <i class="fa fa-refresh"></i>
+                        <span>LIMPIAR</span>
+                    </button>
+                    <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+                        title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar(frmMenu)" [disabled]="!frmMenu.form.valid || flag">
+                        <i class="fa fa-save"></i>
+                        <span>GUARDAR</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!--/.row-->

@@ -1,0 +1,137 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+      </div>
+      <div class="card-body table-responsive">
+        <form class="form-horizontal" autocomplete="off" #frmEstatus="ngForm">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="almacen">
+              Elegir Almacen
+            </label>
+            <div class="col-md-9">
+              <select id="almacen" name="almacen" class="form-control"
+                [(ngModel)]="solicitud.id_almacen_compania" [value]="0">
+                <option value="0">Listar todos</option>
+                <option *ngFor="let a of almacen_compania_datos" 
+                        value="{{a.id_almacen_compania}}">{{a.nombre}} </option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1"
+           style="margin-bottom: 4px"
+            title="LIMPIAR" (click)="limpiar(frmEstatus)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR"(click)="aceptar(); mdl_exportar_reporte.show();">
+            <i class="fa fa-save"></i>
+            <span>ACEPTAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>ARTÍCULOS DEBAJO DEL MÍNIMO</strong>
+
+      </div>
+      <label class="col-md-12 col-form-label" for="almacen">
+        Generar Reporte con articulos por debajo del mínimo
+      </label>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR"(click)="mdl_exportar_reporte2.show();">
+            <i class="fa fa-save"></i>
+            <span>ACEPTAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- MODAL EXPORTAR REPORTE Inventario almacen-->
+<div bsModal class="modal fade" #mdl_exportar_reporte="bs-modal" id="mdl_exportar_reporte" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">EXPORTAR REPORTE </h4>
+        <button type="button" class="close" (click)="mdl_exportar_reporte.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="">
+          ¿En que formato desea descargar el documento?
+        </alert>
+      </div>
+      <div class="card-footer">
+        <div class="text-center">
+          <button type="reset" class="btn btn-primary   btn-square mr-1" style="margin-bottom: 4px" title="PDF" [disabled]="flag"
+            (click)="exportarPDF(); mdl_exportar_reporte.hide();">
+            <span>Archivo PDF </span><i class="fa fa-cloud-download"></i>
+          </button>
+
+          <button type="reset" class="btn btn-primary   btn-square mr-1" style="margin-bottom: 4px" title="EXCEL" [disabled]="flag"
+            (click)="exportarExcel(); mdl_exportar_reporte.hide();">
+            <span>Archivo Excel </span><i class="fa fa-cloud-download"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL EXPORTAR REPORTE debajo del minimo-->
+<div bsModal class="modal fade" #mdl_exportar_reporte2="bs-modal" id="mdl_exportar_reporte2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">EXPORTAR REPORTE </h4>
+        <button type="button" class="close" (click)="mdl_exportar_reporte2.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="">
+          ¿En que formato desea descargar el documento?
+        </alert>
+      </div>
+      <div class="card-footer">
+        <div class="text-center">
+          <button type="reset" class="btn btn-primary   btn-square mr-1" style="margin-bottom: 4px" title="PDF" [disabled]="flag"
+            (click)="obtenerReporteDebajoMinimo('pdf'); mdl_exportar_reporte2.hide();">
+            <span>Archivo PDF </span><i class="fa fa-cloud-download"></i>
+          </button>
+
+          <button type="reset" class="btn btn-primary   btn-square mr-1" style="margin-bottom: 4px" title="EXCEL" [disabled]="flag"
+            (click)="obtenerReporteDebajoMinimo('xlsx'); mdl_exportar_reporte2.hide();">
+            <span>Archivo Excel </span><i class="fa fa-cloud-download"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

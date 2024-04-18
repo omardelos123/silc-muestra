@@ -1,0 +1,288 @@
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+      </div>
+
+      <div class="card-body table-responsive">
+        <form class="form-horizontal" autocomplete="off">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="pull-right text-danger">
+                <strong>
+                  <h3>Número de pedido: {{pedido}}</h3>
+
+
+                  <br>
+                </strong>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="Proveedor">Proveedor</label>
+            <div class="col-md-4">
+              <select id="proveedor" name="proveedor" class="form-control" [(ngModel)]="solicitud.id_proveedor" required
+                #proveedores="ngModel">
+                <option value="">- Selecione un proveedor -</option>
+                <option *ngFor="let a2 of  proveedor" value="{{a2.id_proveedor}}">{{a2.nombre}} </option>
+              </select>
+              <div *ngIf="proveedores.invalid && (proveedores.dirty || proveedores.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="proveedores.errors.required">
+                  El <strong>Proveedor</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-4">titulo 1</div> -->
+            <label class="col-md-2 col-form-label" for="Fecha">Fecha</label>
+            <div class="col-md-4">
+              <input class="form-control" id="Fecha" type="date" name="Fecha" placeholder="Fecha">
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center ">FILA</th>
+                <th class="text-center ">CANTIDAD</th>
+                <th class="text-center">NÚMERO DE PARTE</th>
+                <th class="text-center">UNIDADES</th>
+                <th class="text-center">NO. DE TAREAS</th>
+                <th class="text-center">PRECIO UNITARIO</th>
+                <th class="text-center">TOTAL</th>
+                <th class="text-center">AGREGAR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">
+                  <div class="col-md-4">
+                    <label class="col-md-2 col-form-label" for="Fila">1</label>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="col-md-12 text-center">
+                    <input type="text" id="CANTIDAD" name="CANTIDAD" class="form-control ">
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="col-md-12">
+                    <select id="numeroparte" name="numeroparte" class="form-control"
+                      [(ngModel)]="solicitud.numero_parte_nombre" required #numerodeparte="ngModel"
+                      (change)="run_numero_de_tareas()">
+                      <option value="">- Selecione un número de parte -</option>
+                      <option *ngFor="let Cata of catalogo" value="{{Cata.id_parte_compania}}">{{Cata.nombre}} </option>
+                    </select>
+                    <div *ngIf="numerodeparte.invalid && (numerodeparte.dirty || numerodeparte.touched)"
+                      class="alert alert-danger alert-requerido">
+                      <div *ngIf="numerodeparte.errors.required">
+                        El <strong>Número de parte</strong> es un valor requerido.
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="col-md-28">
+                    <select id="unidad" name="unidad" class="form-control" [(ngModel)]="solicitud.unidad_nombre"
+                      required #unidad="ngModel">
+                      <option value="">- Selecione la unidad -</option>
+                      <option *ngFor="let Unid of unidades" value="{{Unid.id_unidad}}">{{Unid.nombre}} </option>
+                    </select>
+                    <div *ngIf="unidad.invalid && (unidad.dirty || unidad.touched)"
+                      class="alert alert-danger alert-requerido">
+                      <div *ngIf="unidad.errors.required">
+                        La <strong>Unidad</strong> es un valor requerido.
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+                <td class="text-center">
+
+                  <div class="col-md-12">
+                    <select id="tareas" name="tareas" class="form-control" [(ngModel)]="solicitud.nombre_deficiencia" required
+                      #TAREAS="ngModel">
+                      <option value="">- Selecione la tarea -</option>
+                      <option *ngFor="let Tar of lista_pedidos_deficiencia" value="{{Tar.id_deficiencia}}">
+                        {{Tar.nombre_deficiencia}} </option>
+                    </select>
+                    <div *ngIf="TAREAS.invalid && (TAREAS.dirty || TAREAS.touched)" class="alert alert-danger alert-requerido">
+                      <div *ngIf="TAREAS.errors.required">
+                        La <strong>Tarea </strong> es un valor requerido.
+                      </div>
+                    </div>
+
+
+                  </div>
+
+                </td>
+                <td class="text-center">
+                  <div class="col-md-12">
+                    <input type="text" id="PRECIO_UNITARIO" name="PRECIO_UNITARIO" class="form-control">
+                  </div>
+                </td>
+                <td>
+                  <div class="col-md-12 text-right">
+                    <input type="text" id="TOTAL" name="TOTAL" class="form-control">
+                  </div>
+                </td>
+
+                <td class="text-center">
+                  <div class="col-md-4">
+
+                    <button type="button " class="btn btn-brand  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+                      title="AGREGAR">
+                      <i class="fa fa-plus"></i>
+
+                    </button>
+                  </div>
+                </td>
+
+
+              </tr>
+
+
+
+
+              
+
+            </tbody>
+
+          </table>
+
+
+
+
+
+          <div class="col-md-12">
+            <div class="">
+
+
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="text-right">
+                    <strong>Subtotal :</strong>
+                  </div>
+
+                </div>
+                <div class="col-md-2">
+                  <div class="text-right">
+                    <strong>1000.95</strong>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="text-right">
+                    <strong>Impuesto :</strong>
+                  </div>
+
+
+                </div>
+                <div class="col-md-2">
+                  <div class="text-right">
+                    <strong>1000.95</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="text-right">
+                    <strong>Manejo y envios :</strong>
+                  </div>
+
+                </div>
+                <div class="col-md-2">
+                  <div class="text-right">
+                    <strong>1000.95</strong>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="text-right">
+                    <strong>Otros costos o descuentos :</strong>
+                  </div>
+
+                </div>
+                <div class="col-md-2">
+                  <div class="text-right">
+                    <strong>1000.95</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="text-right">
+                    <strong>Gran total :</strong>
+                  </div>
+
+                </div>
+                <div class="col-md-2">
+                  <div class="text-right">
+                    <strong>1000.95</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row ">
+              <div class="pull-right">
+
+                <strong>
+                  Otros costos o descuentos :
+                </strong>
+
+                <strong>
+                  1000.95</strong>
+
+              </div>
+            </div> -->
+            <!-- <div class="row ">
+              <div class="pull-right">
+
+                <strong>Gran total : </strong>
+
+                <strong>1000.95</strong>
+
+              </div>
+            </div> -->
+
+          </div>
+        </form>
+      </div>
+      <!-- <div class="text-right">
+            <label class="col-md-6 col-form-label" for="NUMERO_DE_PEDIDO">00000000017</label>
+            <label class="col-md-8 col-form-label" for="NUMERO_DE_PEDIDO">00000000017</label>
+            <br>
+            <label class="col-md-8 col-form-label" for="NUMERO_DE_PEDIDO">00000000017</label>
+          </div> -->
+    </div>
+
+    <div class="card-footer">
+      <div class="text-right">
+        <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR">
+          <i class="fa fa-times"></i>
+          <span>CANCELAR</span>
+        </button>
+        <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+          title="LIMPIAR">
+          <i class="fa fa-refresh"></i>
+          <span>LIMPIAR</span>
+        </button>
+        <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+          title="GUARDAR">
+          <i class="fa fa-save"></i>
+          <span>GUARDAR</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--/.row-->

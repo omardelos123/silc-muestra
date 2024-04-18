@@ -1,0 +1,30 @@
+export class reportes {
+    public prm_reportes = {
+        token: JSON.parse(decodeURIComponent(escape(window.atob(localStorage._token)))),
+        accion_tipo: '',
+        id_compania: parseInt(localStorage.getItem("COMP")),
+        id_pedido: 0,
+        id_proveedor: 0,
+        id_estatus: 0,
+        cantidad: 0,
+        id_parte: 0,
+        id_unidad: 0,
+        id_tarea: 0,
+        usuario_crea: parseInt(localStorage.getItem("USU")),
+        fecha_crea: new Date().toUTCString(),
+        usuario_actualiza: parseInt(localStorage.getItem("USU")),
+        fecha_actualiza: new Date().toUTCString(),
+        sw_activo: 0,
+        estatus: '',
+        linea_detalle_pedido: 0,
+        nombre: '',
+        cant_disponible: 0,
+        fila: 0,
+        entrada: 0,
+        id_fabricante: 0,
+        id_licencia: 0,
+        fecha_ini: new Date().toUTCString(),
+        fecha_fin: new Date().toUTCString(),
+        numero_equipo: ''
+    }
+}

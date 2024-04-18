@@ -1,0 +1,358 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+      </div>
+      <div class="card-body table-responsive">
+        <form class="form-horizontal" autocomplete="off" #frmsistema="ngForm">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>
+              son requeridos.</p>
+          </div>
+
+          <!-- <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=nombre1><span class="requerido">* </span>Nombre </label>
+            <div class="col-md-9"> -->
+              <!-- <input type="text" id="nombre" name="nombre" class="form-control"
+                placeholder="Nombre" [(ngModel)]="solicitud.nombre" required #nombre="ngModel"> -->
+                <!-- <input type="text" id="nombre" name="nombre" class="form-control"
+                placeholder="nombre" [(ngModel)]="solicitud.valor" > -->
+                <!-- <input type="text" id="nombre" name="nombre1" class="form-control" placeholder="Nombre"
+                [(ngModel)]="solicitud.nombre" #nombre="ngModel">
+              <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="nombre.errors.required">
+                  El <strong>Nombre </strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+ -->
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="clase"><span class="requerido">* </span>Equipo</label>
+            <div class="col-md-9">
+              <select  placeholder="Equipo" id="clase" name="clase" class="form-control" [(ngModel)]="solicitud.id_clase" required #clase="ngModel" [disabled]="estatus=='detalle'">
+                <option value="0">- Selecione el equipo -</option>
+                <option value="{{a.id_clase}}" *ngFor="let a of clase_de_equipo">{{a.nombre}} --- {{a.descripcion}}</option>
+              </select>
+
+              <div *ngIf="clase.invalid && (clase.dirty || clase.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="clase.errors.required">
+                 El <strong>Equipo </strong> es un valor requerido.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Tipo_de_sistema"><span class="requerido">* </span>Tipo de
+              sistema</label>
+            <div class="col-md-9">
+              <select id="Tipo_de_sistema" name="Tipo_de_sistema" class="form-control" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.id_tipo_sistema" required #tipodesistema="ngModel">
+                <option value="0">- Selecione el tipo de sistema -</option>
+                <option value="{{a.id_tipo_sistema}}" *ngFor="let a of tipo_sistemas">{{a.nombre}}</option>
+              </select>
+
+              <div *ngIf="tipodesistema.invalid && (tipodesistema.dirty || tipodesistema.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="tipodesistema.errors.required">
+                  El <strong>Tipo de sistemas</strong> es un valor requerido.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Fabricante"><span class="requerido">* </span>Fabricante</label>
+            <div class="col-md-9">
+              <select id="Fabricante" name="Fabricante" class="form-control" [(ngModel)]="solicitud.id_fabricante" [disabled]="estatus=='detalle'"
+                required #fabricante="ngModel">
+
+                <option value="0">- Selecione el fabricante -</option>
+                <option value="{{a.id_fabricante}}" *ngFor="let a of fabricantes">{{a.nombre}} --- {{a.descripcion}}</option>
+              </select>
+
+              <div *ngIf="fabricante.invalid && (fabricante.dirty || fabricante.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="fabricante.errors.required">
+                  El <strong>Fabricante </strong> es un valor requerido.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="modelo"><span class="requerido">* </span>Modelo</label>
+            <div class="col-md-9">
+              <select id="modelo" name="modelo" class="form-control" [(ngModel)]="solicitud.id_modelo" required [disabled]="estatus=='detalle'"
+                #modelos="ngModel">
+                <option value="0">- Selecione modelo -</option>
+                <option value="{{a.id_modelo}}" *ngFor="let a of modelo">{{a.nombre}} --- {{a.descripcion}}</option>
+              </select>
+
+              <div *ngIf="modelos.invalid && (modelos.dirty || modelo.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="modelos.errors.required">
+                  El <strong>Modelo </strong> es un valor requerido.
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!-- <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=nombre><span class="requerido">* </span>Nombre </label>
+            <div class="col-md-9">
+              <input type="text" id="nombre" name="nombre" class="form-control"
+                placeholder="Nombre" [(ngModel)]="solicitud.nombre" required #nombre="ngModel">
+              <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="nombre.errors.required">
+                  El <strong>Nombre </strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=numero_de_serie><span class="requerido">* </span>Número de
+              serie</label>
+            <div class="col-md-9">
+              <input  id="numero_de_serie" name="numero_de_serie" class="form-control" [disabled]="estatus=='detalle'"
+                placeholder="Número de serie" [(ngModel)]="solicitud.numero_serie" required #numerodeserie="ngModel">
+              <div *ngIf="numerodeserie.invalid && (numerodeserie.dirty || numerodeserie.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="numerodeserie.errors.required">
+                  El <strong>Número de serie </strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=numero_placa><span class="requerido">* </span>Placa</label>
+            <div class="col-md-9">
+              <input type="text" id="numero_placa" name="numero_placa" class="form-control" placeholder="Placa" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.numero_placa" required #numero_placa="ngModel">
+              <div *ngIf="numero_placa.invalid && (numero_placa.dirty || numero_placa.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="numero_placa.errors.required">
+                  La <strong>Placa </strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=año>Año</label>
+            <div class="col-md-9">
+                <input class="form-control" id="año" type="date" name="año" [ngModelOptions]="{standalone: true}" [disabled]="estatus=='detalle'"
+                placeholder="año" [ngModel]="solicitud.ano_fabricacion | date:'yyyy-MM-dd'" 
+                [value]="solicitud.ano_fabricacion | date:'yyyy-MM-dd'"
+                (ngModelChange)="solicitud.ano_fabricacion = $event">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=valor>Valor</label>
+            <div class="col-md-9">
+              <input type="number" step="0.01" id="valor" name="valor" class="form-control" placeholder="Valor"  [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.valor">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="despachable">Despachable</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input id="despachable" name="despachable" type="checkbox" class="switch-input" [disabled]="estatus=='detalle'"
+                  [(ngModel)]="solicitud.sw_despachable">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="destinos"><span class="requerido">* </span>Destino</label>
+            <div class="col-md-9">
+              <select id="destinos" name="destinos" class="form-control" [(ngModel)]="solicitud.id_destino" required #destinos="ngModel" [disabled]="estatus=='detalle'" >
+                <option value="0">- Selecione el destino -</option>
+                <option value="{{a.id_destino}}" *ngFor="let a of destino">{{a.nombre}} --- {{a.descripcion}}</option>
+              </select>
+              <div *ngIf="destinos.invalid && (destinos.dirty || destinos.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="destinos.errors.required">
+                  El <strong>Destino </strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="garantia">Garantia</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input id="garantia" name="garantia" type="checkbox" class="switch-input" [ngModelOptions]="{standalone: true}" [disabled]="estatus=='detalle'"
+                  [(ngModel)]="solicitud.sw_garantia">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="fecha_de_expiracion">Fecha de expiracion</label>
+            <div class="col-md-9">
+                <input class="form-control" id="fecha_de_expiracion" type="date" name="fecha_de_expiracion" [ngModelOptions]="{standalone: true}" [disabled]="estatus=='detalle'"
+                placeholder="Fecha de expiracion" [ngModel]="solicitud.fecha_expiracion | date:'yyyy-MM-dd'"
+                [value]="solicitud.fecha_expiracion | date:'yyyy-MM-dd'"
+                (ngModelChange)="solicitud.fecha_expiracion = $event">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=nombre>
+            <span class="requerido">* </span>Valor Lectura </label>
+            <div class="col-md-9">
+              <input type="text" id="nombre" name="nombre" class="form-control" [ngModelOptions]="{standalone: true}" [disabled]="estatus=='detalle'"
+                placeholder="Valor Lectura" [(ngModel)]="solicitud.valor_lectura">
+              <!-- <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="nombre.errors.required">
+                  El <strong>Nombre </strong> es un valor requerido.
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="inline-radios">Unidad Lectura</label>
+            <div class="col-md-3 col-form-label">
+              <div class="text-center">
+                <label class="form-check-label" for="sw_KM">Km</label> <br>
+                <label class="switch switch-label switch-pill switch-primary">
+                  <input type="radio" name="lectura" id="sw_KM" class="switch-input" value="K" [disabled]="estatus=='detalle'"
+                    [(ngModel)]="solicitud.lectura">
+                  <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3 col-form-label">
+              <div class="text-center">
+                <label class="form-check-label" for="sw_Milla">Milla</label> <br>
+                <label class="switch switch-label switch-pill switch-primary">
+                  <input type="radio" name="lectura" id="sw_Milla" class="switch-input" value="M" [disabled]="estatus=='detalle'"
+                    [(ngModel)]="solicitud.lectura">
+                  <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3 col-form-label">
+              <div class="text-center">
+                <label class="form-check-label" for="sw_Hora">Hora</label> <br>
+                <label class="switch switch-label switch-pill switch-primary">
+                  <input type="radio" name="lectura" id="sw_Hora" class="switch-input" value="H" [disabled]="estatus=='detalle'"
+                    [(ngModel)]="solicitud.lectura">
+                  <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="tipo_de_combustible">Tipo de combustible</label>
+            <div class="col-md-9">
+              <select id="tipo_de_combustible" name="tipo_de_combustible" class="form-control" [ngModelOptions]="{standalone: true}" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.id_tipo_combustible">
+                <option value="0">- Selecione tipo de combustible -</option>
+                <option value="{{a.id_tipo_de_combustible}}" *ngFor="let a of tipo_combustible">{{a.nombre}}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Se debe crear en una vista aparte un formuario de asignar operador -->
+          <!-- <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="operador"><span class="requerido">* </span>Operador</label>
+            <div class="col-md-9">
+              <select id="operador" name="operador" class="form-control" [(ngModel)]="solicitud.id_operador_principal" [disabled]="estatus=='detalle'"
+                required #operador="ngModel">
+                <option value="0">- Selecione el operador -</option>
+                <option value="{{a.id_personal}}" *ngFor="let a of personal">{{a.nombre}} {{a.apellido}} --- {{a.nombre_tipoPersonal}} </option>
+              </select>
+
+              <div *ngIf="operador.invalid && (operador.dirty || operador.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="operador.errors.required">
+                  El <strong>Operador </strong> es un valor requerido.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="supervisor">Supervisor</label>
+            <div class="col-md-9">
+              <select id="supervisor" name="supervisor" class="form-control" [ngModelOptions]="{standalone: true}" [disabled]="estatus=='detalle'"
+                [(ngModel)]="solicitud.id_supervisor_responsable">
+                <option value="0">- Selecione el supervisor -</option>
+                <option value="{{a.id_personal}}" *ngFor="let a of personal">{{a.nombre}} {{a.apellido}} --- {{a.nombre_tipoPersonal}} </option>
+              </select>
+            </div>
+          </div> -->
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Estatus">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input id="Estatus" name="Estatus" type="checkbox" class="switch-input" [disabled]="estatus=='detalle'"
+                  [(ngModel)]="solicitud.sw_activo">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmsistema)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar(frmsistema)" [disabled]="!frmsistema.form.valid || flag">
+                        
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

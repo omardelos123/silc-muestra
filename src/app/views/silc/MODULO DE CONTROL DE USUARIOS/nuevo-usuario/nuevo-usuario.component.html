@@ -1,0 +1,318 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+        <br>
+      </div>
+      <div class="card-body">
+        <form class="form-horizontal" #frmUsr="ngForm" autocomplete="off">
+
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong> son
+              requeridos.</p>
+          </div>
+          <div class="row">
+            <div class="col-md-7">
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="id_tipo_personal"><span class="requerido">* </span>Tipo de
+                  personal</label>
+                <div class="col-md-9">
+                  <select id="id_tipo_personal" name="id_tipo_personal" class="form-control"
+                    [(ngModel)]="solicitud.id_tipo_personal" required #idppr="ngModel">
+                    <option value="">- Selecione un tipo de personal -</option>
+                    <option *ngFor="let x of tipo_de_personal" [value]=x.id_tipo_personal>{{x.nombre}}</option>
+                  </select>
+
+                  <div *ngIf="idppr.invalid && (idppr.dirty || idppr.touched)"
+                    class="alert alert-danger alert-requerido">
+                    <div *ngIf="idppr.errors.required">
+                      El <strong>Tipo de personal</strong> es un valor requerido.
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="Cedula"><span class="requerido">* </span>Identidad
+                  personal</label>
+                <div class="col-md-9">
+                  <input type="text" id="Cedula" name="cedula" class="form-control" placeholder="Identidad personal"
+                    [(ngModel)]="solicitud.identidad_personal" required #idp="ngModel">
+                  <div *ngIf="idp.invalid && (idp.dirty || idp.touched)" class="alert alert-danger alert-requerido">
+                    <div *ngIf="idp.errors.required">
+                      El número de <strong>Identidad personal</strong> es un valor requerido.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="Nombre"><span class="requerido">* </span>Nombre</label>
+                <div class="col-md-9">
+                  <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Nombre"
+                    [(ngModel)]="solicitud.nombre_usuario" required #name="ngModel">
+                  <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger alert-requerido">
+                    <div *ngIf="name.errors.required">
+                      El <strong>nombre</strong> es un valor requerido.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="Apellido"><span class="requerido">* </span>Apellido</label>
+                <div class="col-md-9">
+                  <input type="text" id="Apellido" name="Apellido" class="form-control" placeholder="Apellido"
+                    [(ngModel)]="solicitud.apellido" required #apellido="ngModel">
+                  <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)"
+                    class="alert alert-danger alert-requerido">
+                    <div *ngIf="apellido.errors.required">
+                      El <strong>Apellido</strong> es un valor requerido.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="inline-radios">Género</label>
+                <div class="col-md-3 col-form-label">
+                  <div class="text-center">
+                    <label class="form-check-label" for="sw_Masculino">Masculino</label> <br>
+                    <label class="switch switch-label switch-pill switch-primary">
+                      <input type="radio" name="lectura" id="sw_Masculino" class="switch-input" value="M"
+                        [(ngModel)]="solicitud.genero">
+                      <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3 col-form-label">
+                  <div class="text-center">
+                    <label class="form-check-label" for="sw_Femenino">Femenino</label> <br>
+                    <label class="switch switch-label switch-pill switch-primary">
+                      <input type="radio" name="lectura" id="sw_Femenino" class="switch-input" value="F"
+                        [(ngModel)]="solicitud.genero">
+                      <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-5">
+
+              <div class="form-group">
+                <div class="contenedor-foto" *ngIf="mostrar_foto">
+                  <img src="{{foto}}" class="img-fluid" alt="foto">
+                </div>
+                <input id="foto" type="file" accept="image/*" name="foto" (change)="handleFileSelect($event)">
+              </div>
+
+            </div>
+          </div>
+
+          <hr>
+
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Tipo_de_licencia">Tipo de licencia</label>
+            <div class="col-md-9">
+              <select id="Tipo_de_licencia" name="Tipo_de_licencia" class="form-control"
+                [(ngModel)]="solicitud.id_licencia">
+                <option value="0">- Selecione un Tipo de licencia -</option>
+                <option value="{{a.id_licencia}}" *ngFor="let a of licencias">
+                  {{a.nombre}}</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Fecha_de_nacimiento">Fecha de nacimiento</label>
+            <div class="col-md-9">
+              <input class="form-control" id="Fecha_de_nacimiento" type="date" name="Fecha_de_nacimiento"
+                placeholder="Fecha de nacimiento" [ngModel]="solicitud.fecha_de_nacimiento | date:'yyyy-MM-dd'"
+                [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Telefono"><span class="requerido">*
+              </span>Teléfono/Celular</label>
+            <div class="col-md-9">
+              <input type="text" id="Telefono" name="Telefono" class="form-control" placeholder="Teléfono/Celular"
+                [(ngModel)]="solicitud.telefono" required #tel="ngModel">
+              <div *ngIf="tel.invalid && (tel.dirty || tel.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="tel.errors.required">
+                  El <strong>Teléfono</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Direccion">Dirección</label>
+            <div class="col-md-9">
+              <textarea id="Direccion" name="Direccion" rows="3" class="form-control" placeholder="Dirección"
+                [(ngModel)]="solicitud.direccion" [ngModelOptions]="{standalone: true}"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Correo">Correo electronico</label>
+            <div class="col-md-9">
+              <input type="email" id="Correo" name="Correo" class="form-control" placeholder="Correo electronico"
+                [(ngModel)]="solicitud.correo" [pattern]="expCorreo" #correo="ngModel">
+              <div *ngIf="correo.invalid && (correo.dirty || correo.touched)"
+                class="alert alert-danger alert-requerido">
+                <!-- <div *ngIf="correo.errors.required">
+                    La <strong>Contraseña</strong> es un valor requerido.
+                  </div> -->
+                <div *ngIf="correo.errors?.pattern">
+                  <strong>Formato incorrecto</strong>.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Fecha_de_inicio">Fecha de inicio</label>
+            <div class="col-md-9">
+              <input class="form-control" id="Fecha_de_inicio" type="date" name="Fecha_de_inicio"
+                placeholder="Fecha inicio" [ngModel]="solicitud.fecha_inicio | date:'yyyy-MM-dd'"
+                [value]="solicitud.fecha_inicio | date:'yyyy-MM-dd'" (ngModelChange)="solicitud.fecha_inicio = $event">
+            </div>
+          </div>
+
+
+          <hr>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Rol"><span class="requerido">* </span>Rol</label>
+            <div class="col-md-9">
+              <select id="Rol" name="Rol" class="form-control" required #rol="ngModel" [(ngModel)]="solicitud.id_rol">
+                <option value="">- Selecione rol -</option>
+                <option value="{{a.id_rol}}" *ngFor="let a of roles">{{a.nombre}}</option>
+              </select>
+              <div *ngIf="rol.invalid && (rol.dirty || rol.touched)" class="alert alert-danger alert-requerido">
+                <div *ngIf="rol.errors.required">
+                  El <strong>Rol</strong> es un valor requerido.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+          <div *ngIf="estatus=='crear'">
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="Usuario"><span class="requerido">* </span>Usuario</label>
+              <div class="col-md-9">
+                <input type="text" id="Usuario" name="Usuario" class="form-control" placeholder="Usuario" required
+                  [(ngModel)]="solicitud.usuario" #usr="ngModel">
+                <div *ngIf="usr.invalid && (usr.dirty || usr.touched)" class="alert alert-danger alert-requerido">
+                  <div *ngIf="usr.errors.required">
+                    El <strong>Usuario</strong> es un valor requerido.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="password-input1"><span class="requerido">*
+                </span>Contraseña</label>
+              <div class="col-md-9">
+                <input type="password" id="password-input1" name="password-input1" class="form-control"
+                  placeholder="Contraseña" [(ngModel)]="solicitud.contrasena" [pattern]="expContrasena"
+                  autocomplete="current-password" required #pwd1="ngModel">
+                <div *ngIf="pwd1.invalid && (pwd1.dirty || pwd1.touched)" class="alert alert-danger alert-requerido">
+                  <div *ngIf="pwd1.errors.required">
+                    La <strong>Contraseña</strong> es un valor requerido.
+                  </div>
+
+                  <div *ngIf="pwd1.errors?.pattern">
+                    Debe contener <strong>mayúsculas, minúsculas, números y caracteres</strong> por ejemplo
+                    <strong>!@#$&*</strong>. Longitud minima 8.
+                  </div>
+                </div>
+
+              </div>
+            </div> -->
+            <!-- <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="password-input2"><span class="requerido">* </span>Repita la
+                contraseña</label>
+              <div class="col-md-9">
+                <input type="password" id="password-input2" name="password-input2" class="form-control"
+                  placeholder="Repita la contraseña" [(ngModel)]="pass" autocomplete="current-password" required
+                  #pwd2="ngModel">
+                <div *ngIf="pwd2.invalid && (pwd2.dirty || pwd2.touched)" class="alert alert-danger alert-requerido">
+                  <div *ngIf="pwd2.errors.required">
+                    <strong>Repitia la contraseña</strong> es un valor requerido.
+                  </div>
+                </div>
+                <div *ngIf="solicitud.contrasena != pass" class="alert alert-danger alert-requerido">
+                  <strong>Verificar contraseña.</strong>
+                </div>
+
+              </div>
+            </div> -->
+          </div>
+
+          <div *ngIf="estatus != 'crear'">
+            <div class="form-group row">
+              <div class="col-md-3"></div>
+              <div class="col-md-9">
+                <button type="button" class="btn btn-brand btn-warning btn-primary btn-square mr-1"
+                  title="CAMBIAR CONTRASEÑA" *ngIf="btn_acciones.btn_guardar" (click)="cambio_contrasena()"
+                  [disabled]="!frmUsr.form.valid || flag">
+                  <i class="fa fa-edit"></i>
+                  <span>CAMBIAR CONTRASEÑA</span>
+                </button>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Estatus">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" class="switch-input" [(ngModel)]="solicitud.sw_activo"
+                  [ngModelOptions]="{standalone: true}">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" *ngIf="btn_acciones.btn_limpiar" (click)="limpiar(frmUsr)">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="GUARDAR" *ngIf="btn_acciones.btn_guardar" (click)="guardar(frmUsr)"
+            [disabled]="!frmUsr.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

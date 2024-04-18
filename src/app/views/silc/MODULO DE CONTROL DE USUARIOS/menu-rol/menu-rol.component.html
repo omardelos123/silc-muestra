@@ -1,0 +1,79 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+        </div>
+        <div class="card-body table-responsive">
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+              <div class="pull-right">
+                <label class="col-form-label" for="contenedor">Filtrar por menu Contenedor</label>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+              <select id="contenedor" name="contenedor" class="form-control" [(ngModel)]="solicitud.id_padre" (change)="filtrar_por_contenedor()">
+                <option value="0">- Todos -</option>
+                <ng-container *ngFor="let a of menus_contenedores">
+                  <option value="{{a.id_menu}}" *ngIf="a.sw_contenedor == 1">{{a.nombre}}</option>
+                </ng-container>
+                <!-- <option value="{{a.id_menu}}" *ngFor="let a of menus_contenedores">{{a.nombre}}</option> -->
+              </select>
+            </div>
+
+          </div>
+          <br>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-letf">NOMBRE </th>
+                <th class="text-right">AUTORIZADO</th>
+                <th class="text-right">PRINCIPAL</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="menus.length>0">
+              <tr *ngFor="let a of menus" title="{{a.descripcion}}">
+                <td>{{a.nombre}}</td>
+                <td class="text-right">
+                  <label class="switch switch-label switch-success switch-lg">
+                    <input type="checkbox" class="switch-input" [(ngModel)]="a.sw_activo" (click)="switch(a,'sw_activo')">
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+                </td>
+                <td class="text-right">
+                  <label class="switch switch-label switch-success switch-lg">
+                    <input type="checkbox" class="switch-input" [(ngModel)]="a.sw_principal" (click)="switch(a,'sw_principal')" [disabled]="!a.sw_activo">
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(1)">Primero</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(pager.currentPage - 1)">Anterior</a>
+            </li>
+            <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+              <a class="page-link" (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.currentPage + 1)">Próximo</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.totalPages)">Último</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

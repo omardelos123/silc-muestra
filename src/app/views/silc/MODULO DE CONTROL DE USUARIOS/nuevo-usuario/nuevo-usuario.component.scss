@@ -1,0 +1,14 @@
+.switch-slider {
+    border-radius: initial !important;
+}
+.switch-label.switch-lg {
+    height: 34px !important;
+}
+.switch-label.switch-lg .switch-slider::before {
+    height: 28px !important;
+}
+
+.contenedor-foto{
+    max-height: 220px;
+    overflow: hidden;
+}

@@ -1,0 +1,87 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-navicon"></i><strong>POSIBLES FALLAS</strong>
+        </div>
+        <div class="card-body table-responsive">
+          <div>
+            <button type="button " class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+              title="AGREGAR NUEVO MENU" (click)="crear()" *ngIf="permisos.registrar == 1">
+              <i class="fa fa-plus"></i>
+              <span>CREAR POSIBLE FALLA</span>
+            </button>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="usuario_select"><strong>Filtrar </strong></label>            
+            <div class="col-md-9">
+              <app-buscar-texto [arreglo]="ArregloRespuesta" (salidaArreglo)="filtrar($event)"
+              [FiltroStringObj]="['nombre','nombre_sistema', 'nombre_tipo_de_deficiencia']"
+              [placeholderTxt]="'Filtrar por Falla, Sistema, Deficiencia'">
+              </app-buscar-texto>
+            </div>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-letf">POSIBLE FALLA</th>
+                <th class="text-letf">SISTEMA</th>
+                <th class="text-letf">DEFICIENCIA</th>
+                <th class="text-right">ACCCION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of posibles_fallas" title="{{a.descripcion}}">
+                <td>{{a.nombre}}</td>
+                <td>{{a.nombre_equipo}}</td>
+                <td>{{a.nombre_tipo_de_deficiencia}}</td>
+                <td class="text-right">
+                  <button type="button " class="btn btn-brand  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+                    title="DETALLE" data-toggle="modal" (click)="detalle(a)">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                  <button type="button" class="btn btn-brand btn-success btn-square mr-1" title="MODIFICAR" style="margin-bottom: 4px"
+                    data-toggle="modal" (click)="modificar(a)" *ngIf="permisos.actualizar == 1">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="btn btn-brand btn-danger btn-square mr-1" title="ELIMINAR" style="margin-bottom: 4px"
+                    data-toggle="modal" (click)="eliminar_modal(a)" *ngIf="permisos.eliminar == 1">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="posibles_fallas.length == 0" class="text-center">
+            <p>No existen registros para mostrar</p>
+          </div>
+
+          <ul class="pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(1)">Primero</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(pager.currentPage - 1)">Anterior</a>
+            </li>
+            <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+              <a class="page-link" (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.currentPage + 1)">Próximo</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.totalPages)">Último</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

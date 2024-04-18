@@ -1,0 +1,177 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-navicon"></i><strong>ORDEN DE TRABAJO</strong>
+        </div>
+        <div class="card-body table-responsive">
+          <div>
+            <button type="button" class="btn btn-brand btn-primary btn-square mr-1" title="ORDEN DE TRABAJO"
+              (click)="crear()" *ngIf="permisos.registrar == 1">
+              <i class="fa fa-plus"></i>
+              <span>ORDEN DE TRABAJO</span>
+            </button>
+          </div>
+
+          <br>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="usuario_select"><strong>Filtrar </strong></label>  
+            <div class="col-md-9">
+              <app-buscar-texto [arreglo]="ArregloRespuesta" (salidaArreglo)="filtrar($event)"
+              [FiltroStringObj]="['id_orden','nombre_sistema', 'estado', 'fecha_inicio_orden']"
+              [placeholderTxt]="'Filtrar por N. Orden, Sistema, Estado y Fecha'">
+              </app-buscar-texto>
+            </div>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>N. ORDEN</th>
+                <th>SISTEMA</th>
+                <th>ESTADO</th>
+                <th>FECHA</th>
+                <th>DESCRIPCIÓN</th>
+                <th class="text-center">ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of ordenes">
+                <td>{{a.id_orden}}</td>
+                <td>{{a.nombre_sistema}}</td>
+                <td>{{a.estado}}</td>
+                <td>{{a.fecha_crea}}</td>
+                <td>{{a.descripcion}}</td>
+                <td class="text-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-brand btn-success btn-square mr-1" title="MODIFICAR"
+                      style="margin-bottom: 4px" (click)="modificar(a)" *ngIf="a.id_estatus != 8 && a.id_estatus != 7 && permisos.actualizar == 1">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-brand btn-primary btn-square mr-1" title="DETALLE"
+                      style="margin-bottom: 4px" (click)="detalle(a)">
+                      <i class="fa fa-eye"></i>
+                    </button>
+                    <button type="button" class="btn btn-brand btn-vimeo btn-square mr-1" style="margin-bottom: 4px"
+                      title="DESCARGAR" (click)="saveData(a); IMPRIMIR_Modal.show()">
+                      <i class="fa fa-cloud-download"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(1)">Primero</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(pager.currentPage - 1)">Anterior</a>
+            </li>
+            <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+              <a class="page-link" (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.currentPage + 1)">Próximo</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.totalPages)">Último</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- MODAL PARA ELIMINAR-->
+<div bsModal #ELIMINAR_Modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Eliminar Registro </h4>
+        <button type="button" class="close" (click)="ELIMINAR_Modal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="danger">
+          ¿Desea eliminar <strong>VARIABLE</strong> ?
+        </alert>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary">Close</button> -->
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="NO"
+            (click)="ELIMINAR_Modal.hide()">
+            <!-- <i class="fa fa-times"></i> -->
+            <span>NO</span>
+          </button>
+
+          <button type="submit" class="btn btn-brand  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="SI">
+            <!-- <i class="cui-circle-x"></i> -->
+            <span>SI</span>
+          </button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- MODAL PARA IMPRIMIR PEDIDO-->
+<div bsModal #IMPRIMIR_Modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Desea descargar la orden #  {{itemsDB.id_orden}}</h4>
+        <button type="button" class="close" (click)="IMPRIMIR_Modal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="col-sm-12 col-lg-12">
+          <div class="card">
+            <div class="card-body p-0 clearfix">
+              <i class="fa fa-cloud-download icons font-2xl btn-instagram p-4 px-5 font-2xl mr-3 float-left"></i>
+              <div class="col-md-12">
+                <div class="text-muted text-uppercase font-weight-bold font-xs">Fecha: {{itemsDB.fecha_crea}}</div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs">Sistema: {{itemsDB.nombre_sistema}}</div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs">Estado: {{itemsDB.estado}}</div>
+              </div>
+              </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="IMPRIMIR_Modal.hide()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+
+          <button type="button" class="btn btn-brand  btn-vimeo btn-square mr-1"
+          style="margin-bottom: 4px" title="DESCARGAR" (click)="imprimir(); IMPRIMIR_Modal.hide()">
+          <i class="fa fa-cloud-download"></i>
+          <span>DESCARGAR</span>
+        </button>
+
+        </div>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,56 @@
+GENERALES:
+Para generar un nuevo componente:
+    > ng generate component [NOMBRE] = ng g c [NOMBRE] 
+
+Para generar un modulo para el router en los componentes:
+    > ng generate module app-routing --flat --routing = ng g m [NOMBRE] --flat --routing
+    > El --flat es para crear el archivo .ts dentro de la carpeta que estas ubicado.
+
+
+PASOS PARA CREAR UN COMPONENTE (UNA NUEVA VISTA EN EL PROYECTO):
+
+1 - Ir a la ruta deseada donde de creara el componente.
+    > cd ruta (C:\Users\Ariel Barría\Desktop\proyecto_Elias\SILC\src\app\views\silc\vistas).
+2 - Crear un componente en la vista
+    > En esta carpeta vista si crearan todos los nuevos componentes para el proyecto silc.
+    > Cuando se crea un componente es importante verificar que se agrego en el modulo en este  caso silc.module.ts (Igual como el inicio.component).
+3 - Agregar el path en el archivo silc-routing-module.ts.
+    > Importar componente al routing-module.ts.
+    > Agregar nuevo path {}.
+    > Colocar el nombre del path.
+    > Colocar un titulo (Este aparecera en el breadcrumb, la ruta donde se ubica el usuario en la aplicacion). 
+    > Agregar el component antes importado.
+        Ejemplo:.
+                {
+                    path:'inicio', // nombre del path.
+                    component: InicioComponent, // componente importado.
+                    data:{
+                    title:'Inicio' // titulo de la ruta.
+                    }
+                }
+4 - Agregar la ruta al router principal.
+    > Para este caso estamos solo utilizando un menu desplegable en donde se muestra todo el menu del silc -->  path: 'silc'.
+5 - Agregar el menu a un json para mostrarlo en la aplicacion (este proceso sera a nivel de base de datos. por el momento vamos a quemar las rutas en la app).
+    > Ubicar el archivo _nav.ts (Esta en la carpeta app).
+    > En el children de la app deseada colocar el path deseado, un icono.
+    > Tomar como referencia el SILC.
+    > En este punto hay diferentes atributon que se pueden utilizar dependiendo de lo que se necesite.
+
+
+
+
+
+24/07/2019
+
+*
+    FALLAN LOS SERVICIOS QUE VAN SIN VALORES EN EL VODI, TODOS DEBEN LLEVAR PARA PODER ENVIAR EL TOKEN
+*
+
+SE MODIFICO:
+CRUD_despachos
+GEN_lista_sistemas_despachables_sin_despachar
+
+SE AGREGARON LOS SIGUIENTES CAMPOS A LA TABLA [despachos]:
+- [valor_lectura_retorno]
+- [sw_retorno]
+

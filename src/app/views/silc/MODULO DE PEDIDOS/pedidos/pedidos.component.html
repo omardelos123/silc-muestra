@@ -1,0 +1,287 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-navicon"></i><strong>PEDIDOS</strong>
+
+        </div>
+        <div class="card-body table-responsive">
+          <div>
+            <button type="button " class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+              style="margin-bottom: 4px" title="CREAR REGISTRO DE PEDIDOS" (click)="crear()" *ngIf="permisos.registrar == 1">
+              <i class="fa fa-plus"></i>
+              <span>CREAR REGISTRO DE PEDIDOS</span>
+            </button>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="pedidos_select"><strong>Filtrar pedidos</strong></label>
+            <!-- <div class="col-md-9">
+              <input type="text" id="pedidos_select" name="pedidos_select" class="form-control"
+                placeholder="Filtrar por número de pedido , provedor , fecha , monto , estatus"
+                [(ngModel)]="pedidos_inventario"
+                popover="Puedes filtrar por número de pedido , provedor , fecha , monto , estatus"
+                triggers="mouseenter:mouseleave">
+            </div> -->
+            <div class="col-md-9">
+              <app-buscar-texto [arreglo]="ArregloRespuesta" (salidaArreglo)="filtrar($event)"
+              [FiltroStringObj]="['id_pedido','nombre_proveedor', 'fecha_pedido','gran_total','nombre_estatus']"
+              [placeholderTxt]="'Filtrar por número de pedido , proveedor , fecha , monto , estatus'">
+              </app-buscar-texto>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">NÚMERO DE PEDIDO</th>
+               <!-- <th class="text-center">PROVEEDOR</th>-->
+                <th class="text-center">FECHA</th>
+                <th class="text-center">MONTO</th>
+                <th class="text-center">ESTATUS</th>
+                <th class="text-center">ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              <tr
+                *ngFor="let a of pedidos | filterBy: ['id_pedido', 'nombre_proveedor','fecha_pedido', 'sub_total' , 'nombre_estatus']: pedidos_inventario">
+
+                <td class="text-center">{{a.id_pedido}}</td>
+                <!--<td class="text-center">{{a.nombre_proveedor}}</td>-->
+                <td class="text-center">{{a.fecha_pedido | date:"shortDate"}}</td>
+                <td class="text-center">{{a.gran_total | currency}}</td>
+                <td class="text-center">{{a.nombre_estatus}}</td>
+                <td class="text-center ">
+                  <div class="btn-group ">
+
+                    <!-- <button type="button" class="btn btn-brand btn-sm btn-behance mr-1" style="margin-bottom: 7px"
+                      title="ENVIAR PEDIDO" >
+                      <i class="icon-envelope-open"></i>
+                    </button> -->
+
+                    <button type="button" class="btn btn-brand btn-sm btn-instagram mr-1" style="margin-bottom: 7px"
+                      title="RECIBIR PEDIDO" (click)="recibir(a)">
+                      <i class="cui-check"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-brand btn-sm btn-reddit mr-1" style="margin-bottom: 7px"
+                      title="CANCELAR PEDIDO" (click)="cancelar_pedido(a)">
+                      <i class="fa fa-times-circle-o"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-brand btn-sm btn-vine mr-1" style="margin-bottom: 7px"
+                    title="MODIFICAR PEDIDO" (click)="modificar_pedido(a)" *ngIf="permisos.actualizar == 1">
+                        <i class="fa fa-edit"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-brand btn-sm btn-vimeo mr-1" style="margin-bottom: 7px"
+                      title="DESCARGAR PEDIDO" (click)="saveData(a); IMPRIMIR_Modal.show();detalle_pedidos()">
+                      <i class="fa fa-cloud-download"></i>
+                        </button>
+
+                    
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(1)">Primero</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(pager.currentPage - 1)">Anterior</a>
+            </li>
+            <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+              <a class="page-link" (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.currentPage + 1)">Próximo</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.totalPages)">Último</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL PARA RECIBIR PEDIDO -->
+<div bsModal #RECIBIR_Modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">RECIBIR PEDIDO </h4>
+        <button type="button" class="close" (click)="RECIBIR_Modal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="">
+          ¿Desea recibir el pedido # <strong>VARIABLE</strong> ?
+        </alert>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="RECIBIR_Modal.hide()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+
+          <button type="submit" class="btn btn-brand btn-twitter mr-1" style="margin-bottom: 4px"
+            title="RECIBIR PEDIDO">
+            <i class="cui-check"></i>
+            <span>RECIBIR PEDIDO</span>
+          </button>
+        </div>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- MODAL PARA CANCELAR PEDIDO-->
+<div bsModal #CANCELAR_Modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">CANCELAR PEDIDO </h4>
+        <button type="button" class="close" (click)="CANCELAR_Modal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="">
+          ¿Desea cancelar el pedido # <strong>VARIABLE</strong> ?
+        </alert>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="NO"
+            (click)="CANCELAR_Modal.hide()">
+            <!-- <i class="fa fa-times"></i> -->
+            <span>NO</span>
+          </button>
+
+          <button type="submit" class="btn btn-brand  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="SI">
+            <!-- <i class="cui-circle-x"></i> -->
+            <span>SI</span>
+          </button>
+        </div>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- MODAL PARA IMPRIMIR PEDIDO-->
+<div bsModal #IMPRIMIR_Modal123="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">IMPRIMIR PEDIDO </h4>
+        <button type="button" class="close" (click)="IMPRIMIR_Modal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert type="">
+          ¿Desea imprimir el pedido?
+        </alert>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="NO"
+            (click)="IMPRIMIR_Modal.hide()">
+            <!-- <i class="fa fa-times"></i> -->
+            <span>NO</span>
+          </button>
+
+          <button (click)="imprimir_cotizacion(); IMPRIMIR_Modal.hide()" type="submit" class="btn btn-brand  btn-primary btn-square mr-1"
+           style="margin-bottom: 4px"
+            title="SI">
+            <!-- <i class="cui-circle-x"></i> -->
+            <span>SI</span>
+          </button>
+        </div>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div bsModal #IMPRIMIR_Modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Desea descargar el pedido #{{NUMERO_PEDIDO}} </h4>
+        <!--{{numero_de_parte_modal}}-->
+        <button type="button" class="close" (click)="RECIBIR_Modal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" autocomplete="off">
+           
+          <table class="table">
+            <thead>
+             
+
+
+            </thead>
+            <tbody>
+                <div class="h5 text-center p-0 clearfix">Proveedores</div>
+              <div class="col-sm-12 col-lg-12">
+                <div class="card">
+                    
+                  <div class="card-body p-0 clearfix">
+                     
+                    <i class="fa fa-cloud-download icons font-2xl btn-instagram p-4 px-5 font-2xl mr-3 float-left"></i>
+                    
+                    <tr *ngFor="let recibir_pedidos of datos_recibir_pedidos">
+                        <div class="text-muted text-uppercase font-weight-bold font-xs">{{recibir_pedidos.nombre_proveedor}}  --- ${{recibir_pedidos.total | currency : 2}}</div>
+                    </tr>
+                    </div>
+                </div>
+              </div>
+             
+
+
+            </tbody>
+          </table>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+
+          <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="IMPRIMIR_Modal.hide()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+
+          <button type="button" class="btn btn-brand  btn-vimeo btn-square mr-1"
+            style="margin-bottom: 4px" title="DESCARGAR" (click)="imprimir_cotizacion(); IMPRIMIR_Modal.hide()"
+            *ngIf="estatus_modal!='Completo' && permisos.eliminar == 1">
+            <i class="fa fa-cloud-download"></i>
+            <span>DESCARGAR</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>

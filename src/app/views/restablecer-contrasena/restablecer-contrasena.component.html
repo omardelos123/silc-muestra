@@ -1,0 +1,72 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <form #frmRestConstr="ngForm" autocomplete="off">
+                <h1>Restablecer contraseña</h1>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control" name="usuario" placeholder="Usuario" autocomplete="Usuario"
+                    [(ngModel)]="login.usuario" disabled>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                  </div>
+                  <input type="password" class="form-control" name="pass" placeholder="Nueva contraseña"
+                    autocomplete="new-password" [(ngModel)]="login.n_contrasena" [pattern]="expContrasena" #n_contrasena="ngModel" required>
+                </div>
+                <div *ngIf="n_contrasena.invalid && (n_contrasena.dirty || n_contrasena.touched)"
+                  class="alert alert-danger alert-requerido">
+                  <div *ngIf="n_contrasena.errors.required">
+                    <strong>Es un valor requerido.</strong>
+                  </div>
+                  <div *ngIf="n_contrasena.errors?.pattern">
+                    Debe contener <strong>mayúsculas, minúsculas, números y caracteres</strong> por ejemplo
+                    <strong>!@#$&*</strong>. Longitud minima 8.
+                  </div>
+                </div>
+
+                <div class="input-group mb-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                  </div>
+                  <input type="password" class="form-control" name="repetir_contrasena"
+                    placeholder="Repita la contraseña" autocomplete="new-password" [(ngModel)]="login.nr_contrasena"
+                    #nr_contrasena="ngModel" required>
+                </div>
+                <div *ngIf="nr_contrasena.invalid && (nr_contrasena.dirty || nr_contrasena.touched)"
+                  class="alert alert-danger alert-requerido">
+                  <div *ngIf="nr_contrasena.errors.required">
+                    <strong>Es un valor requerido.</strong>
+                  </div>
+                </div>
+                <div>
+                    <div *ngIf="login.nr_contrasena != login.n_contrasena" class="alert alert-danger alert-requerido">
+                      <strong>Verificar contraseña.</strong>
+                    </div>
+                  <div *ngIf="login.nr_contrasena == login.n_contrasena">
+                    <div *ngIf="login.v_contrasena == login.n_contrasena && login.v_contrasena == login.nr_contrasena"
+                      class="alert alert-danger alert-requerido">
+                      <strong>No puede utilizar la contraseña anterior.</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="button" class="btn btn-block btn-success" 
+                [disabled]="!frmRestConstr.form.valid || login.nr_contrasena != login.n_contrasena"
+                (click)="restablecer_contrasena()">RESTABLECER</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

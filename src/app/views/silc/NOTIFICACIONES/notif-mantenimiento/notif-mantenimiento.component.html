@@ -1,0 +1,67 @@
+<!-- <li class="nav-item  dropdown" dropdown > -->
+<div style="padding: 10px;" class="efect_touch">
+  <li class="nav-item dropdown d-md-down-none " dropdown>
+    <a class="nav-link" (click)="reiniciaContador()" data-toggle="dropdown" role="button" aria-haspopup="true"
+      aria-expanded="false" dropdownToggle (click)="false">
+      <i class="icon-calendar"></i>
+      <span class="badge badge-pill badge-danger" *ngIf="notifContador>0">{{notifContador}}</span>
+    </a>
+
+    <div id="drop" style="max-height: 600px;  overflow-y: scroll; overflow-x:hidden;"
+      class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+
+
+
+      <div class="list-group list-group-accent">
+        <div class="dropdown-header">
+          <div class=" bg-light text-center font-weight-bold text-muted text-uppercase small">
+            MANTENIMIENTO PROGRAMADO</div>
+        </div>
+        <div class="Datos" style="width:350px;">
+          <!-- Si hay datos -->
+          <div class="alerta list-group-item list-group-item-accent-warning list-group-item-divider" *ngFor="let a of notificacionMantenimiento">
+            <div class="">
+
+              <div class="Descripcion" style="white-space: pre-wrap;">
+                <div>Sistema:
+                  <strong>{{a.nombre_sistema}}</strong>
+                </div>
+              </div>
+              <small class="text-muted mr-3">
+                <i class="icon-info"></i>T. Mantenimiento: {{a.nombre_mantenimiento}}</small>
+              <small class="text-muted">
+                <i class="icon-calendar"></i>Fecha: {{a.fecha_mantenimiento}}</small>
+            </div>
+          </div>
+          <!-- No Hay Notificaciones -->
+          <div *ngIf="notificacionMantenimiento.length==0" class="text-center">
+            No hay notificaciones
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <!-- <h6 class="dropdown-header text-left"><strong>Pedidos</strong></h6>
+          <div class="dropdown-item" *ngFor="let a of notificacionPedidos">
+      
+            <label>
+              <strong>Número de Parte: {{a.numeroParte}}</strong>
+            </label>
+            <br />
+            <label>
+              <strong>Fabricante: {{a.fabricante}}</strong>
+            </label>
+            <br />
+            <label>
+              <strong>Cantidad a pedir: {{a.cantPedir}}</strong>
+            </label>
+      
+          </div> -->
+
+
+    </div>
+  </li>
+
+</div>

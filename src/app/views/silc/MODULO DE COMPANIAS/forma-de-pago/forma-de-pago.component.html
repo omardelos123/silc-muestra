@@ -1,0 +1,91 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-navicon"></i><strong>FORMA DE PAGO</strong>
+
+        </div>
+        <div class="card-body table-responsive">
+          <div>
+            <button type="button " class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+              style="margin-bottom: 4px" title="FORMA DE PAGO" (click)="crear()" *ngIf="permisos.registrar == 1">
+              <i class="fa fa-plus"></i>
+              <span>CREAR FORMA DE PAGO</span>
+            </button>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="forma_de_pago_select"><strong>Filtrar forma de
+                pago</strong></label>
+            <div class="col-md-9">
+              <input type="text" id="forma_de_pago_select" name="forma_de_pago_select" class="form-control"
+                placeholder="Filtrar por nombre , descripcion" [(ngModel)]="filtrar_forma_de_pago"
+                popover="Puedes filtrar por nombre , descripcion">
+            </div>
+          </div>
+          <form class="form-horizontal" autocomplete="off">
+            <table class="table">
+              <thead>
+                <tr>
+
+                  <th>NOMBRE</th>
+                  <th>DESCRIPCION</th>
+                  <th class="text-center ">ACCIÓN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let a of forma_de_pago | filterBy: ['nombre_contacto', 'nombre']: filtrar_forma_de_pago">
+
+                  <td>{{a.nombre}}</td>
+                  <td>{{a.descripcion}}</td>
+
+                  <td class="text-center ">
+                    <div class="btn-group ">
+                      <button type="button " class="btn btn-brand  btn-primary btn-square mr-1"
+                        style="margin-bottom: 4px" title="DETALLE" data-toggle="modal" (click)="detalle(a)">
+                        <i class="fa fa-eye"></i>
+
+                      </button>
+                      <button type="button " class="btn btn-brand  btn-success btn-square mr-1"
+                        style="margin-bottom: 4px" title="MODIFICAR" (click)="modificar(a)"
+                        *ngIf="permisos.actualizar == 1">
+                        <i class="fa fa-edit"></i>
+
+                      </button>
+                      <button type="button " class="btn btn-danger  btn-primary btn-square mr-1"
+                        style="margin-bottom: 4px" title="ELIMINAR" data-toggle="modal" (click)="eliminar_modal(a)"
+                        *ngIf="permisos.eliminar == 1">
+                        <i class="fa fa-trash"></i>
+
+                      </button>
+                    </div>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          <ul class="pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(1)">Primero</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+              <a class="page-link" (click)="setPage(pager.currentPage - 1)">Anterior</a>
+            </li>
+            <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+              <a class="page-link" (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.currentPage + 1)">Próximo</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+              <a class="page-link" (click)="setPage(pager.totalPages)">Último</a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>

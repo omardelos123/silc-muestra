@@ -1,0 +1,187 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+
+      </div>
+      <div class="card-body table-responsive">
+        <form class="form-horizontal" autocomplete="off"  #frmNuevoPersonal="ngForm">
+          <div>
+            <p class="requerido">Los campos marcados con <strong>(<span class="requerido">*</span>)</strong>
+              son requeridos.</p>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Identidad_personal"><span class="requerido">* </span>Identidad personal</label>
+            <div class="col-md-9">
+              <input type="text" id="Identidad_personal" name="Identidad_personal" class="form-control"
+                placeholder="Identidad personal" [(ngModel)]="solicitud.cedula"
+                required #identidadpersonal="ngModel">
+              <div *ngIf="identidadpersonal.invalid && (identidadpersonal.dirty || identidadpersonal.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="identidadpersonal.errors.required">
+                  La <strong>Identidad personal</strong> es un valor requerido.
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Nombre"><span class="requerido">* </span>Nombre</label>
+            <div class="col-md-9">
+              <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Nombre"
+                [(ngModel)]="solicitud.nombre"
+                required #nombre="ngModel">
+                <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+                  class="alert alert-danger alert-requerido">
+                  <div *ngIf="nombre.errors.required">
+                    El <strong>Nombre</strong> es un valor requerido.
+                  </div>
+                </div>
+  
+
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Apellido"><span class="requerido">* </span>Apellido</label>
+            <div class="col-md-9">
+              <input type="text" id="Apellido" name="Apellido" class="form-control" placeholder="Apelllido"
+                [(ngModel)]="solicitud.apellido"
+                required #apellido="ngModel">
+                <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)"
+                  class="alert alert-danger alert-requerido">
+                  <div *ngIf="apellido.errors.required">
+                    El <strong>Apellido</strong> es un valor requerido.
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_tipo_personal"><span class="requerido">* </span>Tipo de personal</label>
+            <div class="col-md-9">
+              <select id="id_tipo_personal" name="id_tipo_personal" class="form-control"
+                [(ngModel)]="solicitud.id_tipo_personal"
+                required #tipopersonal="ngModel">
+                <option value="">- Selecione un tipo de personal -</option>
+                <option *ngFor="let x of tipo_de_personal" [value]=x.id_tipo_personal>{{x.nombre}}</option>
+              </select>
+
+              <div *ngIf="tipopersonal.invalid && (tipopersonal.dirty || tipopersonal.touched)"
+                class="alert alert-danger alert-requerido">
+                <div *ngIf="tipopersonal.errors.required">
+                  El <strong>Tipo de personal</strong> es un valor requerido.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Fecha_de_inicio">Fecha de inicio</label>
+            <div class="col-md-9">
+              <input class="form-control" id="Fecha_de_inicio" type="date" name="Fecha_de_inicio"
+                placeholder="Fecha inicio" [(ngModel)]="solicitud.fecha_inicio">
+              <!-- {{solicitud.fecha_inicio | date: 'dd-MM-yyyy'}}[(ngModel)]="solicitud.fecha_inicio.toDate() | date: 'dd/MM/yyyy'"  -->
+
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Fecha_de_nacimiento">Fecha de nacimiento</label>
+            <div class="col-md-9">
+              <input class="form-control" id="Fecha_de_nacimiento" type="date" name="Fecha_de_nacimiento"
+                placeholder="Fecha de nacimiento" [(ngModel)]="solicitud.fecha_nacimiento">
+
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="foto">Foto</label>
+            <div class="col-md-9">
+              <input id="foto" type="file" accept="image/*" name="foto"
+              (change)="handleFileSelect($event)">
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="inline-radios">Género</label>
+            <div class="col-md-3 col-form-label">
+              <div class="text-center">
+                <label class="form-check-label" for="sw_Masculino">Masculino</label> <br>
+                <label class="switch switch-label switch-pill switch-primary">
+                  <input type="radio" name="lectura" id="sw_Masculino" class="switch-input" value="M"
+                    [(ngModel)]="solicitud.genero">
+                  <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3 col-form-label">
+              <div class="text-center">
+                <label class="form-check-label" for="sw_Femenino">Femenino</label> <br>
+                <label class="switch switch-label switch-pill switch-primary">
+                  <input type="radio" name="lectura" id="sw_Femenino" class="switch-input" value="F"
+                    [(ngModel)]="solicitud.genero">
+                  <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Notas">Notas</label>
+            <div class="col-md-9">
+              <textarea id="Notas" name="Notas" rows="3" class="form-control" placeholder="Notas"
+                [(ngModel)]="solicitud.descripcion"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Estatus">Activo</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" name="sw_activo" class="switch-input" checked [(ngModel)]="solicitud.sw_activo">
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR" (click)="limpiar(frmNuevoPersonal)" *ngIf="btn_acciones.btn_limpiar">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" (click)="guardar(frmNuevoPersonal)" *ngIf="btn_acciones.btn_guardar"  [disabled]="!frmNuevoPersonal.form.valid || flag">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

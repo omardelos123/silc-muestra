@@ -1,0 +1,110 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-navicon"></i><strong>CARGA DE PROVEEDOR</strong>
+        </div>
+        <div class="card-body">
+
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="header">
+                  <h2>
+                    SUBIR ARCHIVO
+                  </h2>
+                </div>
+                <div class="body">
+                  <div>
+                    <input id="input_file_excel" name="file" type="file" (change)="cargarExcel($event)"
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-brand btn-primary btn-square mr-1" title="Guardar" (click)="enviar()"
+                [disabled]="!bool_proceder">
+                <i class="fa fa-plus"></i>
+                <span>GUARDAR DATOS</span>
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="col-sm-12 col-lg-12" >
+      <div class="card" *ngIf="bool_proceder">
+        <div class="card-header" >
+          
+          <strong>VISTA PREVIA</strong>
+          <div class="card-header-actions">
+            <!--/ <a href="http://www.chartjs.org">
+              <small class="text-muted">docs</small>
+            </a>-->
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Tabla que despliega los datos cargados del excel -->
+          <div class="col-md-12 table-responsive" >
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-center">Nombre Proveedor</th>
+                  <th class="text-center">RUC</th>
+                  <th class="text-center">Nombre Contacto</th>
+                  <th class="text-center">Domicilio</th>
+                  <th class="text-center">Teléfono</th>
+                  <!-- <th class="text-center">Cod Postal</th> -->
+                  <th class="text-center">Correo</th>
+                  <th class="text-center">Web</th>
+                  <!-- <th class="text-center">Descripción</th> -->
+                  <th class="text-center">Manejo Envío</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let a of registro_excelG">
+                  <td class="">{{a.campo1}}</td>
+                  <td class="">{{a.campo2}}</td>
+                  <td class="">{{a.campo3}}</td>
+                  <td class="">{{a.campo4}}</td>
+                  <td class="">{{a.campo5}}</td>
+                  <!-- <td class="">{{a.campo6}}</td> -->
+                  <td class="">{{a.campo7}}</td>
+                  <td class="">{{a.campo8}}</td>
+                  <!-- <td class="">{{a.campo9}}</td> -->
+                  <td class="">{{a.campo10}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <!-- Fin Tabla -->
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+<!--
+  Modals
+-->
+

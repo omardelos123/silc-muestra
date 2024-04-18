@@ -1,0 +1,82 @@
+<!-- <li class="nav-item  dropdown" dropdown > -->
+<li class="nav-item dropdown" dropdown>
+  <!-- <a class="nav-link dropdown-toggle" (click)="reiniciaContador()" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+    aria-expanded="false"><i class="icon-bell"></i><span
+      class="badge badge-pill badge-danger">{{notifContador}}</span>
+    </a> -->
+  <a class="nav-link" (click)="reiniciaContador()" data-toggle="dropdown" href="JavaScript:Void(0);" role="button" aria-haspopup="true"
+    aria-expanded="false" dropdownToggle (click)="false">
+    <i class="icon-bell"></i>
+    <span class="badge badge-pill badge-danger">{{notifContador}}</span>
+  </a>
+
+   <div id="drop" style="max-height: 600px;  overflow-y: scroll; overflow-x:hidden;"
+   class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" >
+  <!-- <div id="drop"  class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" >-->
+     <h6 class="dropdown-header text-left"><strong>Pedidos</strong></h6>
+    <!-- <a class="dropdown-item" href="JavaScript:Void(0);"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a> -->
+    <div class="dropdown-item" *ngFor="let a of notificacionPedidos">
+
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Número de Parte: {{a.numeroParte}}</strong>
+      </label>
+      <br />
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Fabricante: {{a.fabricante}}</strong>
+      </label>
+      <br />
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Cantidad a pedir: {{a.cantPedir}}</strong>
+      </label>
+
+      <!-- <a class="dropdown-item" href="#"> <i class="fa fa-comments"></i> Lock account</a>
+        <a class="dropdown-item" href="#"> <i class="fa fa-comments"></i> Lock account</a>
+        <a class="dropdown-item" href="#"> <i class="fa fa-comments"></i> Lock account</a> -->
+      <!-- <span class="badge badge-warning">{{a.numeroParte}}</span><br/>
+      <span class="badge badge-warning">{{a.fabricante}}</span><br/>
+      <span class="badge badge-warning">{{a.cantPedir}}</span> -->
+    </div>
+
+<div class="dropdown-header text-left"><strong>Ordenes</strong></div>
+    <div class="dropdown-item" *ngFor="let a of notificacionOrdenes">
+
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Descripcion de la Orden: {{a.descripcionOrden}}</strong>
+      </label>
+      <br />
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Fecha: {{a.fechaOrden}}</strong>
+      </label>
+      <br />
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Emisor: {{a.emisor}}</strong>
+      </label>
+    </div>
+
+<div class="dropdown-header text-left"><strong>Mantenimientos Programados</strong></div>
+    <div class="dropdown-item" *ngFor="let a of notificacionMantenimiento">
+
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Sistema: {{a.nombre_sistema}}</strong>
+      </label>
+      <br />
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Tipo mantenimiento: {{a.nombre_mantenimiento}}</strong>
+      </label>
+      <br />
+      <label>
+        <!-- <i class="fa fa-comments"></i> -->
+        <strong>Fecha: {{a.fecha_mantenimiento}}</strong>
+      </label>
+    </div>
+
+  </div>
+</li>

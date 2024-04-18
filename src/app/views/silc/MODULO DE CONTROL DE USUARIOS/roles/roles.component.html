@@ -1,0 +1,120 @@
+
+<app-spinner [mostrar]="flag"></app-spinner>
+
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-navicon"></i><strong>ROLES</strong>
+        </div>
+        <div class="card-body table-responsive">
+          <div>
+            <button type="button " class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+              title="AGREGAR NUEVO ROL" (click)="crear()" *ngIf="permisos.registrar == 1">
+              <i class="fa fa-plus"></i>
+              <span>CREAR ROL</span>
+            </button>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="nombre_select"><strong>Filtrar nombre</strong></label>
+            
+
+            <div class="col-md-9">
+              <app-buscar-texto [arreglo]="ArregloRespuesta" (salidaArreglo)="filtrar($event)"
+              [FiltroStringObj]="['nombre']"
+              [placeholderTxt]="'Filtrar por nombre '">
+              </app-buscar-texto>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>NOMBRE </th>
+                <!-- <th class="text-center">DESCRIPCION</th> -->
+                <th>CREAR</th>
+                <th>MODIFICAR</th>
+                <th>ELIMINAR</th>
+                <th>DESHABILITAR</th>
+                <th>ESTATUS</th>
+                <th class="text-center">ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of roles  | filterBy: ['nombre']: filtrar_nombre" title="{{a.descripcion}}">
+               
+                <td>{{a.nombre}}</td>
+                <!-- <td class="text-center">{{a.descripcion}}</td> -->
+                <td>
+                  <label class="switch switch-label switch-success switch-lg">
+                    <input type="checkbox" class="switch-input" [(ngModel)]="a.sw_crea" (click)="switch(a,'sw_crea')" [disabled]="permisos.actualizar == 0">
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+                </td>
+                <td>
+                  <label class="switch switch-label switch-success switch-lg">
+                    <input type="checkbox" class="switch-input" [(ngModel)]="a.sw_editar" (click)="switch(a,'sw_editar')" [disabled]="permisos.actualizar == 0">
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+                </td>
+                <td>
+                  <label class="switch switch-label switch-success switch-lg">
+                    <input type="checkbox" class="switch-input" [(ngModel)]="a.sw_eliminar" (click)="switch(a,'sw_eliminar')" [disabled]="permisos.actualizar == 0">
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+                </td>
+                <td>
+                  <label class="switch switch-label switch-success switch-lg">
+                    <input type="checkbox" class="switch-input" [(ngModel)]="a.sw_deshabilita" (click)="switch(a,'sw_deshabilita')" [disabled]="permisos.actualizar == 0">
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+                </td>
+                <td>
+                  <label class="switch switch-label switch-success switch-lg">
+                    <input type="checkbox" class="switch-input" [(ngModel)]="a.sw_activo" (click)="switch(a,'sw_activo')" [disabled]="permisos.actualizar == 0">
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-brand btn-info btn-square mr-1" title="MENU AUTORIZADOS" style="margin-bottom: 4px"
+                      (click)="rol_menu(a)" *ngIf="permisos.actualizar == 1">
+                      <i class="fa fa-check-square-o" style="color: white;"></i>
+                    </button>
+                  <button type="button" class="btn btn-brand btn-success btn-square mr-1" title="MODIFICAR" style="margin-bottom: 4px"
+                    (click)="modificar(a)" *ngIf="permisos.actualizar == 1">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                    <button type="button" class="btn btn-brand btn-danger btn-square mr-1" title="ELIMINAR" style="margin-bottom: 4px"
+                      data-toggle="modal" (click)="eliminar_modal(a)" *ngIf="permisos.eliminar == 1">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="roles.length == 0" class="text-center">
+            <p>No existen registros para mostrar</p>
+          </div>
+          <ul class="pagination" *ngIf="pager.pages && pager.pages.length">
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="setPage(1)">Primero</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="setPage(pager.currentPage - 1)">Anterior</a>
+              </li>
+              <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a class="page-link" (click)="setPage(page)">{{page}}</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="setPage(pager.currentPage + 1)">Próximo</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="setPage(pager.totalPages)">Último</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

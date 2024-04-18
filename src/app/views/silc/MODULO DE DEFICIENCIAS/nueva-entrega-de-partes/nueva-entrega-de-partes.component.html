@@ -1,0 +1,103 @@
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-edit"></i><strong>{{titulo}}</strong>
+        <br>
+        <strong> {{estatus}}</strong>
+      </div>
+      <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_orden_de_trabajo>Id orden de trabajo</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_orden_de_trabajo" name="Id_orden_de_trabajo" class="form-control" placeholder="Id orden de trabajo">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_entrega>Entrega</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_entrega" name="Id_entrega" class="form-control" placeholder="Id entrega">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_parte>Parte</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_parte" name="Id_parte" class="form-control" placeholder="Id parte">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Id_cantidad>Cantidad</label>
+            <div class="col-md-9">
+              <input type="text" id="Id_cantidad" name="Id_cantidad" class="form-control" placeholder="Id cantidad">
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Defecto">Defecto</label>
+            <div class="col-md-9">
+              <label class="switch switch-label switch-success switch-lg">
+                <input type="checkbox" class="switch-input" checked>
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Cantidad_defecto>Cantidad defecto</label>
+            <div class="col-md-9">
+              <input type="text" id="Cantidad_defecto" name="Cantidad_defecto" class="form-control" placeholder="Cantidad defecto">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for=Unidades_de_entrega>Unidades de entrega</label>
+            <div class="col-md-9">
+              <input type="text" id="Unidades_de_entrega" name="Unidades_de_entrega" class="form-control" placeholder="Unidades de entrega">
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Detalle">Detalle</label>
+            <div class="col-md-9">
+              <textarea id="Detalle" name="Detalle" rows="3" class="form-control" placeholder="Detalle"></textarea>
+            </div>
+          </div>
+
+
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+          <button type="reset" class="btn btn-brand btn-warning  btn-warning btn-square mr-1" style="margin-bottom: 4px"
+            title="LIMPIAR">
+            <i class="fa fa-refresh"></i>
+            <span>LIMPIAR</span>
+          </button>
+          <button type="submit" class="btn btn-brand btn-primary  btn-primary btn-square mr-1" style="margin-bottom: 4px"
+            title="GUARDAR">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--/.row-->

@@ -1,0 +1,270 @@
+
+<div class="row animated fadeIn">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="cui-note "></i><strong>RECIBIR PEDIDO</strong>
+      </div>
+
+      <div class="card-body table-responsive">
+        <form class="form-horizontal" autocomplete="off" class="form-horizontal">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="pull-right text-danger">
+                <strong>
+                  <h3>Número de pedido: {{id_pedidos}}</h3>
+                  <br>
+                </strong>
+              </div>
+            </div>
+          </div>
+          <div class="row detalle-pedido">
+            <label class="col-md-3  " for="fecha_pedido"><strong>Fecha : </strong></label>
+            <div class="col-md-3">
+              <input class="form-control" id="fecha_pedido" type="date" name="fecha_pedido" placeholder="Fecha"
+                [ngModel]="solicitud.fecha_pedido | date:'yyyy-MM-dd'"
+                [value]="solicitud.fecha_pedido | date:'yyyy-MM-dd'" (ngModelChange)="solicitud.fecha_pedido = $event"
+                class="form-control form-control-sm" [disabled]="estado_de_el_pedido==0">
+            </div>
+
+            <label class=" text-right col-md-3 col-form-label" for="estatus"><span class="requerido">
+              </span><strong>Estatus : </strong></label>
+            <div class="col-md-3 text-right">
+              <label class=" col-form-label" for="estatus"><span class="requerido" value="">
+                </span><strong>{{nombre_estatus}}</strong></label>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">FILA</th>
+                <th class="text-center">NÚMERO DE PARTE</th>
+                <th class="text-center">CANTIDAD REQUERIDA</th>
+                <!-- MODAL PARA RECIBIR PEDIDO<th class="text-center">RECIBIDAS</th> -->
+                <th class="text-center">ESTADO</th>
+                <th class="text-center">ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let field of fieldArray; let i = index">
+                <td class="text-center ">
+                  <label class="form-control" class="form-control form-control-sm " class="col-md-4"
+                    style="text-align:center">{{field.linea}}</label>
+                </td>
+                <td class="text-center ">
+                  <select id="numeroparte" name="numeroparte{{i}}" class="form-control" [(ngModel)]="field.id_parte"
+                    required #numerodeparte="ngModel" (change)="ejecuta_parte(field, i)"
+                    class="form-control form-control-sm" [disabled]="true">
+                    <option value="">- Selecione un número de parte -</option>
+                    <option *ngFor="let Cata of listas_partes" value="{{Cata.id_parte_compania}}">{{Cata.nombre}} ---
+                      {{Cata.descripcion}}
+                    </option>
+                  </select>
+                  <div *ngIf="numerodeparte.invalid && (numerodeparte.dirty || numerodeparte.touched)"
+                    class="alert alert-danger alert-requerido">
+                    <div *ngIf="numerodeparte.errors.required">
+                      El <strong>Número de parte</strong> es un valor requerido.
+                    </div>
+                  </div>
+                </td>
+
+                <td class="text-center ">
+
+                  <label class="form-control" class="form-control form-control-sm "
+                    style="text-align:center">{{field.cantidad}}</label>
+                </td>
+
+                <!-- MODAL PARA RECIBIR PEDIDO
+                <td class="text-center">
+                  <div class="col-md-28">
+                    <strong>
+                      <label class="form-control" class="form-control form-control-sm "
+                        style="text-align:center">{{field.faltante}}</label>
+                    </strong>
+                  </div>
+                </td>
+                -->
+                <td class="text-center">
+                  <div class="col-md-12">
+                    <strong>
+
+                      <label class="form-control" class="form-control form-control-sm "
+                        style="text-align:center">{{field.estatus}}</label>
+                    </strong>
+                  </div>
+                </td>
+
+                <td>
+                  <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-brand btn-github mr-1" style="margin-bottom: 4px"
+                      title="RECIBIR PEDIDO" (click)="LEVANTANDO_MODAL(i);">
+                      <i class="cui-check"></i>
+                    </button>
+
+
+                  </div>
+                </td>
+              </tr>
+
+
+            </tbody>
+
+          </table>
+
+        </form>
+
+
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="reset" class="btn btn-brand   btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="cancelar()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL PARA RECIBIR PEDIDO-->
+<div bsModal #RECIBIR_Modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg " role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title text-center">
+           
+                <strong>NÚMERO DE PARTE : {{nombre_modal}} --- {{descripcion_modal}}</strong> 
+           
+
+        </h4>
+        <!--{{numero_de_parte_modal}}-->
+        <button type="button" class="close" (click)="RECIBIR_Modal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" autocomplete="off">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="CANTIDAD_SOLICITADA">Cantidad requerida :</label>
+            <div class="col-md-3">
+              <strong> <label class="col-md-2 col-form-label"
+                  for="CANTIDAD_SOLICITADA_NUMERO">
+                  <strong>
+                   
+                     
+                        <strong>{{cantidad_requeridas_modal}}</strong> 
+                   
+                  </strong></label></strong>
+            </div>
+
+            <label class="col-md-3 col-form-label" for="CANTIDAD_SOLICITADA">Precio unitario :</label>
+            <div class="col-md-3">
+              <strong> <label class="col-md-2 col-form-label"
+                  for="CANTIDAD_SOLICITADA_NUMERO"><strong>{{precio_unitario_modal | currency}} </strong></label></strong>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">NÚMERO DE SERIE</th>
+                <th class="text-center">ESTADO</th>
+                <th class="text-center">DESCRIPCIÓN</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let recibir_pedidos of detalle_datos_recibir_pedidos; let i = index">
+
+                <td class="text-center ">
+                  <div class=" ">
+                    <label class="form-control" class="form-control form-control-sm " class="col-md-4"
+                      style="text-align:center">{{recibir_pedidos["linea"]}}</label>
+                  </div>
+                </td>
+                <td class="text-center ">
+                  <div class=" ">
+                    <input type="text" id="numero_de_serie" name="numero_de_serie{{i}}" class="form-control"
+                      placeholder="Número de serie" [(ngModel)]="recibir_pedidos.numero_de_serie"
+                      [readonly]="estatus_bool_readonly">
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group row">
+
+                    <div>
+                      <div class="text-center">
+                        <label class="form-check-label" for="sw_bueno">Bueno</label> <br>
+                        <label class="switch switch-label switch-pill switch-primary">
+                          <input type="radio" name="estado{{i}}" id="sw_bueno" class="switch-input" value="B"
+                            [(ngModel)]="recibir_pedidos.estado" (change)="activador_checkbutton_estado('B',i)"
+                            [readonly]="estatus_bool_readonly">
+                          <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="text-center">
+                        <label class="form-check-label" for="sw_malo">Malo</label> <br>
+                        <label class="switch switch-label switch-pill switch-primary">
+                          <input type="radio" name="estado{{i}}" id="sw_malo" class="switch-input" value="M"
+                            [(ngModel)]="recibir_pedidos.estado" (change)="activador_checkbutton_estado('M',i)"
+                            [readonly]="estatus_bool_readonly">
+                          <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="text-center">
+                        <label class="form-check-label" for="sw_no_vino">No vino</label> <br>
+                        <label class="switch switch-label switch-pill switch-primary">
+                          <input type="radio" name="estado{{i}}" id="sw_no_vino" class="switch-input" value="N"
+                            [(ngModel)]="recibir_pedidos.estado" (change)="activador_checkbutton_estado('N', i)"
+                            [disabled]="estatus_bool_readonly">
+                          <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+
+                    <textarea id="descripcion" name="descripcion{{i}}" rows="4" class="form-control"
+                      placeholder="Descripcion" [(ngModel)]="recibir_pedidos.descripcion"
+                      [disabled]="!recibir_pedidos.bl_controlDescripcion "></textarea>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="text-right">
+
+          <button type="button" class="btn btn-brand btn-square mr-1" style="margin-bottom: 4px" title="CANCELAR"
+            (click)="RECIBIR_Modal.hide()">
+            <i class="fa fa-times"></i>
+            <span>CANCELAR</span>
+          </button>
+
+          <button type="button" class="btn btn-brand btn-primary  btn-primary btn-square mr-1"
+            style="margin-bottom: 4px" title="GUARDAR" (click)="eliminar_datos_recibir_pedidos_base_datos()"
+            *ngIf="estatus_modal!='Completo' && permisos.eliminar == 1">
+            <i class="fa fa-save"></i>
+            <span>GUARDAR</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
